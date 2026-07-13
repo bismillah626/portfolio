@@ -2,6 +2,8 @@
 
 A premium, anime-inspired personal portfolio built with **Next.js 16**, **React 19**, and **Framer Motion**. Features a Ghibli-themed dual-mode design with interactive elements like cursor-tracking avatars, sakura petals, fireflies, and a lamp-string theme toggle.
 
+### 🌐 [Live Demo →](https://portfolio-red-xi-76.vercel.app/)
+
 ---
 
 ## ✨ Features
@@ -13,6 +15,7 @@ A premium, anime-inspired personal portfolio built with **Next.js 16**, **React 
 - **AI Chatbot** — Built-in conversational assistant
 - **Glassmorphism UI** — Frosted-glass cards with 3D tilt on hover
 - **Multi-Page** — About, Projects, Skills, and Contact sections with modal navigation
+- **Responsive Design** — Mobile bottom navigation bar + desktop sidebar for seamless navigation on all devices
 
 ## 🛠 Tech Stack
 
@@ -47,7 +50,7 @@ portfolio/
 │       ├── ThemeProvider.tsx     # Dark/light mode context
 │       ├── ThemeBackground.tsx   # Animated wallpaper layer
 │       ├── LampToggle.tsx        # Lamp-string theme switch
-│       ├── Sidebar.tsx           # Navigation sidebar
+│       ├── Sidebar.tsx           # Navigation sidebar + mobile bottom nav
 │       ├── AtmosphereParticles.tsx # Ambient particle effects
 │       └── PageTransition.tsx    # Route transition animation
 └── package.json
@@ -63,7 +66,7 @@ portfolio/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/<your-username>/myPortfolio.git
+git clone https://github.com/bismillah626/myPortfolio.git
 cd myPortfolio/portfolio
 ```
 
