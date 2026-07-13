@@ -201,7 +201,14 @@ body {
 .page-content {
   max-width: 900px;
   margin: 0 auto;
-  padding: 6rem clamp(2rem, 5vw, 5rem) 4rem;
+  padding: 6rem clamp(2rem, 5vw, 5rem) 6rem;
+}
+
+/* Extra bottom space on mobile for fixed bottom nav */
+@media (max-width: 767px) {
+  .page-content {
+    padding-bottom: 7rem;
+  }
 }
 
 @media (min-width: 768px) {

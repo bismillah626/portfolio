@@ -239,7 +239,9 @@ export default function Hero() {
         </a>
 
         <a
-          href="#"
+          href="https://drive.google.com/file/d/1_eKridyN4funTh7gnMif-6JJfsv1njpl/view?usp=sharing"
+          target="_blank"
+          rel="noopener noreferrer"
           className="flex items-center gap-2 px-5 py-2.5 rounded-full transition-all duration-300"
           style={{
             background: "linear-gradient(135deg, rgba(167,139,250,0.12), rgba(103,232,232,0.08))",

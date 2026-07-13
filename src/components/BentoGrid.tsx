@@ -364,23 +364,42 @@ function BentoCard({ title, subtitle, icon, children, delay = 0, className = "",
    ============================================================ */
 export default function BentoGrid() {
   return (
-    <section className="relative z-20 pb-8">
-      <div style={{ maxWidth: "1040px", margin: "0 auto", padding: "0 clamp(1.5rem, 4vw, 3rem)" }}>
-        {/* 2-row, 3-column grid */}
-        <div
-          className="grid gap-5"
-          style={{
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gridTemplateRows: "auto auto",
-          }}
-        >
+    <section className="relative z-20 pb-32 sm:pb-8">
+      {/* Responsive grid styles */}
+      <style>{`
+        .bento-grid {
+          display: grid;
+          gap: 1rem;
+          grid-template-columns: 1fr;
+        }
+        /* On mobile single-column: reorder so Contact is visible */
+        @media (max-width: 639px) {
+          .bento-about { order: 1; }
+          .bento-skills { order: 2; }
+          .bento-projects { order: 3; }
+          .bento-contact { order: 4; }
+        }
+        @media (min-width: 640px) {
+          .bento-grid {
+            gap: 1.25rem;
+            grid-template-columns: repeat(2, 1fr);
+          }
+          .bento-span-2 { grid-row: span 2; }
+        }
+        @media (min-width: 1024px) {
+          .bento-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+      `}</style>
 
-          {/* TOP-LEFT: About — with eye-tracking character */}
+      <div style={{ maxWidth: "1040px", margin: "0 auto", padding: "0 clamp(1rem, 4vw, 3rem)" }}>
+        <div className="bento-grid">
+
+          {/* About — with eye-tracking character */}
           <BentoCard
             title="About"
             subtitle="A bit about myself."
             delay={0}
-            className="min-h-[160px]"
+            className="bento-about min-h-[140px] sm:min-h-[160px]"
             href="/about"
             accentColor="var(--accent-pink)"
             icon={
@@ -393,12 +412,12 @@ export default function BentoGrid() {
             <KaorukoAvatar />
           </BentoCard>
 
-          {/* TOP-CENTER + BOTTOM-CENTER: Projects — spans 2 rows */}
+          {/* Projects — spans 2 rows on tablet+ */}
           <BentoCard
             title="Projects"
             subtitle="Personal projects I've been working on."
             delay={0.1}
-            className="row-span-2 min-h-[340px]"
+            className="bento-projects bento-span-2 min-h-[160px] sm:min-h-[340px]"
             href="/projects"
             accentColor="var(--accent-cyan)"
             icon={
@@ -408,7 +427,6 @@ export default function BentoGrid() {
               </svg>
             }
           >
-            {/* Project icon grid (like Franck's app icons) */}
             <div className="flex flex-wrap gap-2 max-w-[120px]">
               {[
                 { bg: "linear-gradient(135deg, #6366f1, #8b5cf6)", label: "F" },
@@ -430,12 +448,12 @@ export default function BentoGrid() {
             </div>
           </BentoCard>
 
-          {/* TOP-RIGHT + BOTTOM-RIGHT: Contact — spans 2 rows, animated chat bubbles */}
+          {/* Contact — spans 2 rows on tablet+ */}
           <BentoCard
             title="Contact"
             subtitle="Email, LinkedIn, carrier pigeon..."
             delay={0.2}
-            className="row-span-2 min-h-[340px]"
+            className="bento-contact bento-span-2 min-h-[160px] sm:min-h-[340px]"
             href="/contact"
             accentColor="var(--accent-gold)"
             icon={
@@ -448,12 +466,12 @@ export default function BentoGrid() {
             <AnimatedChatBubbles />
           </BentoCard>
 
-          {/* BOTTOM-LEFT: Skills */}
+          {/* Skills */}
           <BentoCard
             title="Skills"
             subtitle="My technical toolkit."
             delay={0.15}
-            className="min-h-[160px]"
+            className="bento-skills min-h-[140px] sm:min-h-[160px]"
             href="/skills"
             accentColor="var(--accent-purple)"
             icon={
@@ -484,3 +502,4 @@ export default function BentoGrid() {
     </section>
   );
 }
+
