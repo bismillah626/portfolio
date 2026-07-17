@@ -183,13 +183,13 @@ export default function Hero() {
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.8, duration: 0.7 }}
-        className="mt-10 flex items-center gap-4"
+        className="mt-10 flex items-center gap-3"
       >
         <a
           href="https://github.com/bismillah626"
           target="_blank"
           rel="noopener noreferrer"
-          className="group flex items-center gap-2.5 px-5 py-2.5 rounded-full transition-all duration-300"
+          className="group flex items-center justify-center w-11 h-11 rounded-full transition-all duration-300"
           style={{
             background: "var(--bg-glass)",
             border: "1px solid var(--border-subtle)",
@@ -215,7 +215,7 @@ export default function Hero() {
           href="https://linkedin.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="group flex items-center gap-2.5 px-5 py-2.5 rounded-full transition-all duration-300"
+          className="group flex items-center justify-center w-11 h-11 rounded-full transition-all duration-300"
           style={{
             background: "var(--bg-glass)",
             border: "1px solid var(--border-subtle)",

@@ -116,7 +116,7 @@ export default function SkillsPage() {
         </div>
 
         {/* Skills Groups — proper spacing between cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           {skills.map((group, gi) => (
             <motion.div
               key={group.category}
@@ -132,7 +132,7 @@ export default function SkillsPage() {
               >
                 {group.category}
               </h3>
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-4">
                 {group.items.map((item, ii) => (
                   <motion.span
                     key={item.name}
