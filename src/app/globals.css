@@ -282,6 +282,9 @@ body {
 
 /* ===== SKILL PILL ===== */
 .skill-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   font-size: 0.875rem;
   padding: 0.5rem 1.25rem;
   border-radius: 9999px;
@@ -290,6 +293,17 @@ body {
   font-weight: 500;
 }
 
+.skill-pill-icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
 .skill-pill:hover {
   transform: scale(1.05);
+}
+
+.skill-pill:hover .skill-pill-icon {
+  opacity: 1;
 }
