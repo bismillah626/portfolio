@@ -5,9 +5,10 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 /* ============================================================
-   KAORUKO — Cute manga face with eye-tracking pupils
+   AGURI — Manga-accurate Aguri avatar with eye-tracking
+   Dark purple/indigo long hair, large blue eyes, rosy blush
    ============================================================ */
-function KaorukoAvatar() {
+function AguriAvatar() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [pupilOffset, setPupilOffset] = useState({ x: 0, y: 0 });
 
@@ -20,8 +21,8 @@ function KaorukoAvatar() {
       const dx = e.clientX - centerX;
       const dy = e.clientY - centerY;
       const dist = Math.sqrt(dx * dx + dy * dy);
-      const maxOffset = 3.5;
-      const factor = Math.min(dist / 180, 1);
+      const maxOffset = 3.2;
+      const factor = Math.min(dist / 200, 1);
       setPupilOffset({
         x: (dx / (dist || 1)) * maxOffset * factor,
         y: (dy / (dist || 1)) * maxOffset * factor,
@@ -32,8 +33,6 @@ function KaorukoAvatar() {
   }, []);
 
   const hair = "var(--avatar-hair)";
-  const skin = "var(--accent-gold)";
-  const lineColor = "var(--text-primary)";
 
   return (
     <motion.div
@@ -43,143 +42,126 @@ function KaorukoAvatar() {
       animate={{ y: [0, -3, 0] }}
       transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
     >
-      <svg viewBox="0 0 100 100" width="90" height="90" style={{ overflow: "visible" }}>
+      <svg viewBox="0 0 120 120" width="90" height="90" style={{ overflow: "visible" }}>
         <defs>
-          {/* Face skin gradient */}
-          <radialGradient id="skinGrad" cx="0.45" cy="0.4" r="0.55">
-            <stop offset="0%" stopColor="#FFE4C4" />
-            <stop offset="100%" stopColor="#F5D0A9" />
+          {/* Aguri skin: fair warm tone */}
+          <radialGradient id="aguSkin" cx="0.45" cy="0.38" r="0.55">
+            <stop offset="0%" stopColor="#FFF0E0" />
+            <stop offset="60%" stopColor="#FDDCC4" />
+            <stop offset="100%" stopColor="#F5C9A8" />
           </radialGradient>
-          {/* Eye iris gradient */}
-          <radialGradient id="irisGradL" cx="0.4" cy="0.35" r="0.6">
-            <stop offset="0%" stopColor="#8B6914" />
-            <stop offset="50%" stopColor="#6B4E12" />
-            <stop offset="100%" stopColor="#3D2B0A" />
+          {/* Aguri blue iris — left */}
+          <radialGradient id="aguIrisL" cx="0.42" cy="0.32" r="0.6">
+            <stop offset="0%" stopColor="#9AC4F8" />
+            <stop offset="35%" stopColor="#5B9BF0" />
+            <stop offset="70%" stopColor="#3B6FCE" />
+            <stop offset="100%" stopColor="#1E3A78" />
           </radialGradient>
-          <radialGradient id="irisGradR" cx="0.4" cy="0.35" r="0.6">
-            <stop offset="0%" stopColor="#8B6914" />
-            <stop offset="50%" stopColor="#6B4E12" />
-            <stop offset="100%" stopColor="#3D2B0A" />
+          {/* Aguri blue iris — right */}
+          <radialGradient id="aguIrisR" cx="0.42" cy="0.32" r="0.6">
+            <stop offset="0%" stopColor="#9AC4F8" />
+            <stop offset="35%" stopColor="#5B9BF0" />
+            <stop offset="70%" stopColor="#3B6FCE" />
+            <stop offset="100%" stopColor="#1E3A78" />
           </radialGradient>
+          {/* Blush gradient */}
+          <radialGradient id="aguBlushL" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0%" stopColor="#F0868A" stopOpacity="0.55" />
+            <stop offset="100%" stopColor="#F0868A" stopOpacity="0" />
+          </radialGradient>
+          <radialGradient id="aguBlushR" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0%" stopColor="#F0868A" stopOpacity="0.55" />
+            <stop offset="100%" stopColor="#F0868A" stopOpacity="0" />
+          </radialGradient>
+          {/* Hair highlight sheen */}
+          <linearGradient id="aguHairSheen" x1="0" y1="0" x2="0.5" y2="1">
+            <stop offset="0%" stopColor="#9B7AD8" stopOpacity="0.4" />
+            <stop offset="50%" stopColor="#7B5DBB" stopOpacity="0" />
+            <stop offset="100%" stopColor="#B490E8" stopOpacity="0.2" />
+          </linearGradient>
         </defs>
 
-        {/* ===== BACK HAIR ===== */}
-        <ellipse cx="50" cy="48" rx="36" ry="38" fill={hair} opacity="0.9" />
+        {/* ===== BACK LONG HAIR — Aguri's long flowing hair draping down ===== */}
+        <path d="M60 18 Q28 20, 18 55 Q14 75, 20 100 Q22 108, 28 110 L32 95 Q30 72, 34 55Z" fill={hair} opacity="0.85" />
+        <path d="M60 18 Q92 20, 102 55 Q106 75, 100 100 Q98 108, 92 110 L88 95 Q90 72, 86 55Z" fill={hair} opacity="0.85" />
+        {/* Center back volume */}
+        <ellipse cx="60" cy="48" rx="38" ry="36" fill={hair} opacity="0.9" />
 
         {/* ===== FACE ===== */}
-        <ellipse cx="50" cy="56" rx="26" ry="24" fill="url(#skinGrad)" />
+        <ellipse cx="60" cy="62" rx="26" ry="25" fill="url(#aguSkin)" />
+        {/* Chin refinement — Aguri has a softer pointed chin */}
+        <ellipse cx="60" cy="78" rx="14" ry="10" fill="url(#aguSkin)" />
 
         {/* ===== NECK ===== */}
-        <rect x="44" y="76" width="12" height="8" rx="3" fill="#F5D0A9" />
+        <rect x="53" y="85" width="14" height="8" rx="4" fill="#FDDCC4" />
 
-        {/* ===== BIG EYES — Kaoruko style ===== */}
-        {/* Left eye white */}
-        <ellipse cx="39" cy="56" rx="9" ry="10" fill="#FAFAFA" />
-        <ellipse cx="39" cy="56" rx="9" ry="10" fill="none" stroke={lineColor} strokeWidth="1.2" opacity="0.3" />
-        {/* Left iris */}
-        <ellipse
-          cx={39 + pupilOffset.x * 0.8}
-          cy={56 + pupilOffset.y * 0.7}
-          rx="6.5"
-          ry="7"
-          fill="url(#irisGradL)"
-        />
-        {/* Left pupil */}
-        <circle
-          cx={39 + pupilOffset.x}
-          cy={56 + pupilOffset.y}
-          r="3.5"
-          fill="#1a1208"
-        />
-        {/* Left eye highlights */}
-        <circle
-          cx={36.5 + pupilOffset.x * 0.2}
-          cy={53 + pupilOffset.y * 0.2}
-          r="2.5"
-          fill="#fff"
-          opacity="0.95"
-        />
-        <circle
-          cx={41 + pupilOffset.x * 0.15}
-          cy={59 + pupilOffset.y * 0.15}
-          r="1.2"
-          fill="#fff"
-          opacity="0.6"
-        />
+        {/* ===== EYES — Large bright blue, Aguri signature ===== */}
+        {/* Left eye */}
+        <ellipse cx="47" cy="62" rx="10" ry="11" fill="#FAFCFF" />
+        <ellipse cx="47" cy="62" rx="10" ry="11" fill="none" stroke="#2A1B4E" strokeWidth="1.2" opacity="0.25" />
+        <ellipse cx={47 + pupilOffset.x * 0.75} cy={62 + pupilOffset.y * 0.65} rx="7" ry="7.8" fill="url(#aguIrisL)" />
+        <circle cx={47 + pupilOffset.x} cy={62 + pupilOffset.y} r="3.8" fill="#0F1B3D" />
+        {/* Primary highlight — large */}
+        <circle cx={44 + pupilOffset.x * 0.15} cy={58.5 + pupilOffset.y * 0.15} r="3" fill="#fff" opacity="0.95" />
+        {/* Secondary highlight — small */}
+        <circle cx={49.5 + pupilOffset.x * 0.1} cy={65 + pupilOffset.y * 0.1} r="1.5" fill="#fff" opacity="0.7" />
+        {/* Iris ring shimmer */}
+        <ellipse cx={47 + pupilOffset.x * 0.5} cy={62 + pupilOffset.y * 0.4} rx="5.5" ry="6" fill="none" stroke="#88C0F8" strokeWidth="0.6" opacity="0.4" />
 
-        {/* Right eye white */}
-        <ellipse cx="61" cy="56" rx="9" ry="10" fill="#FAFAFA" />
-        <ellipse cx="61" cy="56" rx="9" ry="10" fill="none" stroke={lineColor} strokeWidth="1.2" opacity="0.3" />
-        {/* Right iris */}
-        <ellipse
-          cx={61 + pupilOffset.x * 0.8}
-          cy={56 + pupilOffset.y * 0.7}
-          rx="6.5"
-          ry="7"
-          fill="url(#irisGradR)"
-        />
-        {/* Right pupil */}
-        <circle
-          cx={61 + pupilOffset.x}
-          cy={56 + pupilOffset.y}
-          r="3.5"
-          fill="#1a1208"
-        />
-        {/* Right eye highlights */}
-        <circle
-          cx={58.5 + pupilOffset.x * 0.2}
-          cy={53 + pupilOffset.y * 0.2}
-          r="2.5"
-          fill="#fff"
-          opacity="0.95"
-        />
-        <circle
-          cx={63 + pupilOffset.x * 0.15}
-          cy={59 + pupilOffset.y * 0.15}
-          r="1.2"
-          fill="#fff"
-          opacity="0.6"
-        />
+        {/* Right eye */}
+        <ellipse cx="73" cy="62" rx="10" ry="11" fill="#FAFCFF" />
+        <ellipse cx="73" cy="62" rx="10" ry="11" fill="none" stroke="#2A1B4E" strokeWidth="1.2" opacity="0.25" />
+        <ellipse cx={73 + pupilOffset.x * 0.75} cy={62 + pupilOffset.y * 0.65} rx="7" ry="7.8" fill="url(#aguIrisR)" />
+        <circle cx={73 + pupilOffset.x} cy={62 + pupilOffset.y} r="3.8" fill="#0F1B3D" />
+        <circle cx={70 + pupilOffset.x * 0.15} cy={58.5 + pupilOffset.y * 0.15} r="3" fill="#fff" opacity="0.95" />
+        <circle cx={75.5 + pupilOffset.x * 0.1} cy={65 + pupilOffset.y * 0.1} r="1.5" fill="#fff" opacity="0.7" />
+        <ellipse cx={73 + pupilOffset.x * 0.5} cy={62 + pupilOffset.y * 0.4} rx="5.5" ry="6" fill="none" stroke="#88C0F8" strokeWidth="0.6" opacity="0.4" />
 
-        {/* ===== EYELASHES (top) ===== */}
-        <path d="M29 50 Q34 46, 39 47 Q44 46, 49 50" fill="none" stroke={lineColor} strokeWidth="1.8" strokeLinecap="round" opacity="0.7" />
-        <path d="M51 50 Q56 46, 61 47 Q66 46, 71 50" fill="none" stroke={lineColor} strokeWidth="1.8" strokeLinecap="round" opacity="0.7" />
+        {/* ===== EYELASHES — thick top lashes, Aguri style ===== */}
+        <path d="M36 55 Q41 50, 47 51.5 Q53 50, 58 55" fill="none" stroke="#2A1B4E" strokeWidth="2" strokeLinecap="round" opacity="0.75" />
+        <path d="M62 55 Q67 50, 73 51.5 Q79 50, 84 55" fill="none" stroke="#2A1B4E" strokeWidth="2" strokeLinecap="round" opacity="0.75" />
+        {/* Lower lash lines */}
+        <path d="M39 71 Q47 74, 55 71" fill="none" stroke="#2A1B4E" strokeWidth="0.7" opacity="0.2" />
+        <path d="M65 71 Q73 74, 81 71" fill="none" stroke="#2A1B4E" strokeWidth="0.7" opacity="0.2" />
 
-        {/* ===== EYEBROWS ===== */}
-        <path d="M31 44 Q36 40, 44 43" stroke={hair} strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.6" />
-        <path d="M56 43 Q64 40, 69 44" stroke={hair} strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.6" />
+        {/* ===== EYEBROWS — thin, gentle arches ===== */}
+        <path d="M38 48 Q44 44, 53 47" stroke="#3D2858" strokeWidth="1.6" fill="none" strokeLinecap="round" opacity="0.55" />
+        <path d="M67 47 Q76 44, 82 48" stroke="#3D2858" strokeWidth="1.6" fill="none" strokeLinecap="round" opacity="0.55" />
 
-        {/* ===== BLUSH MARKS (manga crosshatch) ===== */}
-        <g opacity="0.35">
-          <line x1="27" y1="61" x2="30" y2="63" stroke="#E8837C" strokeWidth="1" />
-          <line x1="29" y1="61" x2="32" y2="63" stroke="#E8837C" strokeWidth="1" />
-          <line x1="31" y1="61" x2="34" y2="63" stroke="#E8837C" strokeWidth="1" />
-          <line x1="66" y1="61" x2="69" y2="63" stroke="#E8837C" strokeWidth="1" />
-          <line x1="68" y1="61" x2="71" y2="63" stroke="#E8837C" strokeWidth="1" />
-          <line x1="70" y1="61" x2="73" y2="63" stroke="#E8837C" strokeWidth="1" />
+        {/* ===== BLUSH — Aguri's signature rosy cheeks ===== */}
+        <ellipse cx="35" cy="70" rx="8" ry="4.5" fill="url(#aguBlushL)" />
+        <ellipse cx="85" cy="70" rx="8" ry="4.5" fill="url(#aguBlushR)" />
+        {/* Manga-style hash blush lines */}
+        <g opacity="0.3">
+          <line x1="30" y1="69" x2="33" y2="71.5" stroke="#E87C80" strokeWidth="0.8" />
+          <line x1="32" y1="68.5" x2="35" y2="71" stroke="#E87C80" strokeWidth="0.8" />
+          <line x1="34" y1="68" x2="37" y2="70.5" stroke="#E87C80" strokeWidth="0.8" />
+          <line x1="83" y1="68" x2="86" y2="70.5" stroke="#E87C80" strokeWidth="0.8" />
+          <line x1="85" y1="68.5" x2="88" y2="71" stroke="#E87C80" strokeWidth="0.8" />
+          <line x1="87" y1="69" x2="90" y2="71.5" stroke="#E87C80" strokeWidth="0.8" />
         </g>
 
-        {/* ===== NOSE (tiny) ===== */}
-        <path d="M49 65 Q50 67, 51 65" stroke="#D4A574" strokeWidth="1" fill="none" strokeLinecap="round" opacity="0.5" />
+        {/* ===== NOSE — small dot style like Aguri ===== */}
+        <circle cx="60" cy="72" r="0.8" fill="#D4A080" opacity="0.5" />
 
-        {/* ===== MOUTH (cute open) ===== */}
-        <ellipse cx="50" cy="71" rx="4" ry="2.5" fill="#E8837C" opacity="0.7" />
-        <path d="M46 70 Q50 74, 54 70" fill="none" stroke="#C06060" strokeWidth="1" strokeLinecap="round" opacity="0.5" />
+        {/* ===== MOUTH — small gentle smile ===== */}
+        <path d="M55 78 Q60 81, 65 78" fill="none" stroke="#C87070" strokeWidth="1.2" strokeLinecap="round" opacity="0.6" />
 
-        {/* ===== FRONT HAIR / BANGS ===== */}
-        {/* Center bangs */}
-        <path d="M35 32 Q38 50, 42 48 Q44 42, 46 48 Q48 42, 50 48 Q52 42, 54 48 Q56 42, 58 48 Q62 50, 65 32" fill={hair} opacity="0.92" />
-        {/* Left side hair */}
-        <path d="M22 35 Q20 55, 24 65 Q26 60, 28 55 Q30 48, 35 32Z" fill={hair} opacity="0.88" />
-        {/* Right side hair */}
-        <path d="M78 35 Q80 55, 76 65 Q74 60, 72 55 Q70 48, 65 32Z" fill={hair} opacity="0.88" />
-        {/* Hair outline strands */}
-        <path d="M35 28 Q32 18, 28 15 Q38 20, 42 28" fill={hair} opacity="0.8" />
-        <path d="M58 28 Q60 18, 65 14 Q63 22, 60 28" fill={hair} opacity="0.8" />
-        <path d="M48 28 Q47 16, 50 12 Q53 16, 52 28" fill={hair} opacity="0.75" />
-        {/* Extra flyaway strands */}
-        <path d="M25 30 Q22 22, 20 18" stroke={hair} strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.5" />
-        <path d="M75 30 Q78 22, 80 18" stroke={hair} strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.5" />
+        {/* ===== FRONT HAIR — Aguri's dark purple bangs ===== */}
+        {/* Main bangs — wispy, parted slightly to the side */}
+        <path d="M30 35 Q35 55, 40 52 Q43 46, 46 53 Q48 45, 51 52 Q53 44, 56 52 Q58 46, 60 53 Q63 48, 66 53 Q70 55, 75 38" fill={hair} opacity="0.93" />
+        {/* Left side framing hair — long strand */}
+        <path d="M22 32 Q17 58, 20 80 Q22 85, 26 82 Q28 72, 29 60 Q30 48, 32 35Z" fill={hair} opacity="0.9" />
+        {/* Right side framing hair — long strand */}
+        <path d="M98 32 Q103 58, 100 80 Q98 85, 94 82 Q92 72, 91 60 Q90 48, 88 35Z" fill={hair} opacity="0.9" />
+        {/* Top crown volume */}
+        <path d="M30 35 Q35 15, 50 12 Q60 10, 75 14 Q88 18, 98 32 Q85 22, 60 18 Q40 20, 30 35Z" fill={hair} opacity="0.95" />
+        {/* Hair sheen overlay */}
+        <path d="M40 20 Q50 15, 60 14 Q70 15, 78 22 Q68 18, 55 17 Q45 18, 40 20Z" fill="url(#aguHairSheen)" />
+        {/* Flyaway strands at top */}
+        <path d="M38 22 Q34 12, 30 8" stroke={hair} strokeWidth="1.8" fill="none" strokeLinecap="round" opacity="0.5" />
+        <path d="M82 22 Q86 12, 90 8" stroke={hair} strokeWidth="1.8" fill="none" strokeLinecap="round" opacity="0.5" />
+        <path d="M58 16 Q57 6, 55 2" stroke={hair} strokeWidth="1.5" fill="none" strokeLinecap="round" opacity="0.4" />
       </svg>
     </motion.div>
   );
@@ -409,7 +391,7 @@ export default function BentoGrid() {
               </svg>
             }
           >
-            <KaorukoAvatar />
+            <AguriAvatar />
           </BentoCard>
 
           {/* Projects — spans 2 rows on tablet+ */}

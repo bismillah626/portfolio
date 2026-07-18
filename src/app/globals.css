@@ -16,7 +16,7 @@
   --border-subtle: rgba(255, 255, 255, 0.06);
   --border-glow: rgba(167, 139, 250, 0.3);
   --shadow-glow: 0 0 40px rgba(167, 139, 250, 0.12);
-  --avatar-hair: #5b8af5;
+  --avatar-hair: #3D2462;
   --font-heading: var(--font-space-grotesk), var(--font-geist-sans), sans-serif;
   --font-body: var(--font-geist-sans), var(--font-space-grotesk), sans-serif;
   --sidebar-width: 80px;
@@ -39,7 +39,7 @@
   --border-subtle: rgba(0, 0, 0, 0.08);
   --border-glow: rgba(124, 93, 214, 0.3);
   --shadow-glow: 0 0 40px rgba(124, 93, 214, 0.1);
-  --avatar-hair: #2D2016;
+  --avatar-hair: #2E1A47;
 }
 
 @theme inline {
