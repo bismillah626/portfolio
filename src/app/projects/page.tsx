@@ -6,35 +6,37 @@ export default function ProjectsPage() {
   const projects = [
     {
       name: "Friday AI — Voice Assistant",
-      desc: "A modular voice assistant built with LangChain for task orchestration, FAISS for contextual memory, and the Gemini API for natural language understanding. My attempt at building a personal AI that actually remembers what you told it five minutes ago.",
+      desc: "A modular voice assistant built with LangChain for task orchestration, FAISS for contextual memory, and the Gemini API for natural language understanding. My attempt at building a personal AI that actually remembers what you told it five minutes ago.\n\n",
       tags: ["Python", "LangChain", "FAISS", "Gemini"],
       link: "https://github.com/bismillah626/Friday_AI_Assistant-ff--_--_V2",
       accent: "var(--accent-purple)",
       gradient: "linear-gradient(135deg, rgba(99,102,241,0.15) 0%, rgba(139,92,246,0.08) 100%)",
     },
     {
+      name: "giT_gUarDiaN",
+      desc: "A multi-agent AI platform that reviews every pull request like a senior engineer checking code quality, security vulnerabilities, missing tests, and documentation. Built with a LangGraph supervisor orchestrating four specialist agents, grounded by deterministic static analysis tools (Bandit, Semgrep, Gitleaks) so the LLM never invents findings from scratch.\n\n",
+      tags: ["Python", "LangGraph", "FastAPI", "Docker", "ChromaDB"],
+      link: "https://github.com/bismillah626/git_gUardiaN",
+      accent: "var(--accent-gold)",
+      gradient: "linear-gradient(135deg, rgba(251,191,36,0.1) 0%, rgba(245,158,11,0.05) 100%)",
+    },
+
+    {
       name: "Spam Email Classifier",
-      desc: "Chrome extension backed by a Flask API. Uses an ensemble NLP pipeline that hits 98% accuracy. The kind of project where the engineering under the hood is way more interesting than it looks on the surface.",
+      desc: "Chrome extension backed by a Flask API. Uses an ensemble NLP pipeline that hits 98% accuracy. The kind of project where the engineering under the hood is way more interesting than it looks on the surface.\n\n",
       tags: ["Python", "Flask", "NLP", "Scikit-learn"],
       link: "https://github.com/bismillah626/spam_project",
       accent: "var(--accent-cyan)",
       gradient: "linear-gradient(135deg, rgba(6,182,212,0.12) 0%, rgba(34,211,238,0.06) 100%)",
     },
+
     {
       name: "Nike E-Commerce App",
-      desc: "A Flutter mobile app with clean product listings and smooth navigation. More of a design-focused project — wanted to see how far I could push mobile UI polish.",
+      desc: "A Flutter mobile app with clean product listings and smooth navigation. More of a design-focused project wanted to see how far I could push mobile UI polish.\n\n",
       tags: ["Flutter", "Dart", "Mobile"],
       link: "https://github.com/bismillah626/Nike_ecommerce_store-",
       accent: "var(--accent-pink)",
       gradient: "linear-gradient(135deg, rgba(244,114,182,0.12) 0%, rgba(236,72,153,0.06) 100%)",
-    },
-    {
-      name: "giT_gUarDiaN",
-      desc: "A multi-agent AI platform that reviews every pull request like a senior engineer — checking code quality, security vulnerabilities, missing tests, and documentation. Built with a LangGraph supervisor orchestrating four specialist agents, grounded by deterministic static analysis tools (Bandit, Semgrep, Gitleaks) so the LLM never invents findings from scratch.",
-      tags: ["Python", "LangGraph", "FastAPI", "Docker", "ChromaDB"],
-      link: "https://github.com/bismillah626/git_gUardiaN",
-      accent: "var(--accent-gold)",
-      gradient: "linear-gradient(135deg, rgba(251,191,36,0.1) 0%, rgba(245,158,11,0.05) 100%)",
     },
   ];
 
