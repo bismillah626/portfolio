@@ -239,7 +239,7 @@ export default function Hero() {
         </a>
 
         <a
-          href="https://drive.google.com/file/d/1_eKridyN4funTh7gnMif-6JJfsv1njpl/view?usp=sharing"
+          href="https://drive.google.com/file/d/1KdejxmVUTCS3Ep_du9u6GvI0_mJWhxX4/view?usp=sharing"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2 px-5 py-2.5 rounded-full transition-all duration-300"
