@@ -27,10 +27,12 @@ export default function Home() {
             {projects.slice(0, 3).map((project, index) => (
               <Reveal key={project.id} delay={index * .06} className="work-card">
                 <Link className="work-cover-link" href={`/projects#${project.id}`}><span className="sr-only">Explore {project.title}</span><ProjectCover id={project.id} number={project.number} /><span className="cover-arrow"><ArrowUpRight size={24} /></span></Link>
-                <div className="work-card-meta mono"><span>{project.category}</span><span>{project.metric}</span></div>
-                <h3 className="display"><Link href={`/projects#${project.id}`}>{project.title}</Link></h3>
-                <p>{project.summary}</p>
-                <div className="chip-row">{project.tags.slice(0, 3).map((tag) => <Chip key={tag}>{tag}</Chip>)}</div>
+                <div className="work-card-body">
+                  <div className="work-card-meta mono"><span>{project.category}</span><span>{project.metric}</span></div>
+                  <h3 className="display"><Link href={`/projects#${project.id}`}>{project.title}</Link></h3>
+                  <p>{project.summary}</p>
+                  <div className="chip-row">{project.tags.slice(0, 3).map((tag) => <Chip key={tag}>{tag}</Chip>)}</div>
+                </div>
               </Reveal>
             ))}
           </div>
