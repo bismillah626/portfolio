@@ -1,17 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#00f0ff"/><stop offset=".52" stop-color="#8b5cff"/><stop offset="1" stop-color="#ff2e9a"/></linearGradient>
-    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse"><path d="M64 0H0V64" fill="none" stroke="#00f0ff" stroke-opacity=".12"/></pattern>
-  </defs>
-  <rect width="1200" height="630" fill="#05060f"/>
-  <rect width="1200" height="630" fill="url(#grid)"/>
-  <circle cx="1000" cy="80" r="260" fill="none" stroke="#00f0ff" stroke-opacity=".18"/>
-  <circle cx="1000" cy="80" r="180" fill="none" stroke="#ff2e9a" stroke-opacity=".16"/>
-  <path d="M0 535 420 250 1200 250" fill="none" stroke="url(#g)" stroke-width="2" stroke-dasharray="7 10"/>
-  <text x="90" y="150" fill="#00f0ff" font-family="monospace" font-size="22" letter-spacing="7">BK / PORTFOLIO NODE</text>
-  <text x="82" y="285" fill="#e6f1ff" font-family="Arial, sans-serif" font-size="78" font-weight="700" letter-spacing="5">BISMILLAH</text>
-  <text x="82" y="375" fill="url(#g)" font-family="Arial, sans-serif" font-size="78" font-weight="700" letter-spacing="5">KHAN</text>
-  <text x="88" y="450" fill="#a9b6d9" font-family="monospace" font-size="22" letter-spacing="4">AI/ML ENGINEER // LLM SYSTEMS // NLP</text>
-  <rect x="88" y="500" width="350" height="42" fill="#f7ff3c" fill-opacity=".12" stroke="#f7ff3c"/>
-  <text x="108" y="528" fill="#f7ff3c" font-family="monospace" font-size="15" letter-spacing="2">[ SYSTEM ONLINE ]</text>
+  <rect width="1200" height="630" fill="#191817"/>
+  <path d="M60 70h1080M60 552h1080" stroke="#554c42"/>
+  <text x="60" y="48" fill="#c0b8ab" font-family="monospace" font-size="14" letter-spacing="3">BK / ENGINEERING INTELLIGENCE</text>
+  <text x="60" y="240" fill="#eee6d6" font-family="Arial,sans-serif" font-size="78" font-weight="700" letter-spacing="-4">BISMILLAH</text>
+  <text x="60" y="330" fill="#ff816e" font-family="Arial,sans-serif" font-size="100" font-weight="700" letter-spacing="-4">KHAN.</text>
+  <text x="64" y="401" fill="#eee6d6" font-family="monospace" font-size="21">AI / ML ENGINEER</text>
+  <text x="64" y="443" fill="#c0b8ab" font-family="monospace" font-size="16">LLM SYSTEMS / NLP / APPLIED ML</text>
+  <g transform="translate(780 135) rotate(5 150 170)">
+    <path fill="#eee6d6" d="M-30-30h350v390H-30z"/>
+    <circle cx="145" cy="165" r="136" fill="#9e302f"/>
+    <path d="M148 10 279 209 78 306 18 132Zm-9 97-55 66 42 46 72-35Z" fill="#24211f" fill-rule="evenodd"/>
+    <path d="m148 10 131 199-81-25-59-77ZM18 132l66 41 42 46-48 87Z" fill="#eee6d6"/>
+    <path d="m148 10 78 296 69-151 15 29Zm-130 122 60 174 10-15Z" fill="#ff816e"/>
+  </g>
+  <text x="60" y="590" fill="#c4cba3" font-family="monospace" font-size="14" letter-spacing="2">PORTFOLIO / 2026</text>
 </svg>

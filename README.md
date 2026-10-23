@@ -1,6 +1,6 @@
 # Bismillah Khan — Portfolio
 
-An original cyberpunk-terminal portfolio for Bismillah Khan, an AI/ML Engineer
+An original editorial portfolio for Bismillah Khan, an AI/ML Engineer
 and B.Tech CSE student at IIIT Bhubaneswar. It is built with Next.js 16,
 React 19, TypeScript, Tailwind CSS 4, and Framer Motion.
 
@@ -9,16 +9,18 @@ Live site: [portfolio-red-xi-76.vercel.app](https://portfolio-red-xi-76.vercel.a
 ## Included
 
 - Five preserved routes: `/`, `/about`, `/projects`, `/skills`, and `/contact`.
-- Dark/light neon theme with a pre-hydration theme script and keyboard-accessible toggle.
-- Original SVG BK mark and avatar. No third-party anime, game, or film art.
-- Reduced-motion handling for boot, rain particles, glitch bursts, scanlines, and large transitions.
+- **Vermilion / Ink** art direction: warm charcoal, parchment, deep red, and celadon, with dark/light themes.
+- Original folded-ribbon SVG sculpture, BK mark, and illustrated project covers. No third-party character art.
+- Animated ink contours respond to a fine pointer and move independently on touch devices.
+- Pause/resume control, live reduced-motion support, and hidden-tab suspension. Canvas paints at up to 24fps, caps DPR at 1.5, and uses fewer contours on mobile.
 - Local LazyGPT chat widget with the existing deterministic keyword behavior and suggested prompts.
 - Accessible project filters and mission-briefing modal, responsive skill constellation, and mailto contact fallback.
 - Metadata, Open Graph SVG, sitemap, robots, focus rings, semantic labels, and responsive layouts from 360px upward.
 
 ## Run locally
 
-Node.js 20.9+ and npm 9+ are recommended (Next.js 16 requires Node 20.9 or newer).
+Use Node.js 22.12+ and npm 9+ for development and the browser checks. The app's
+Next.js runtime itself supports Node 20.9+, but the axe test runner needs 22.12+.
 
 ```bash
 npm install
@@ -31,29 +33,77 @@ Production checks:
 npm run lint
 npm run typecheck
 npm run build
+npx playwright install chromium
+npm run test:ui
 ```
 
 ## Design tokens
 
-All visual tokens live at the top of `src/app/globals.css`. Dark mode uses the
-Night City Terminal palette; `[data-theme="light"]` overrides it with the
-Daylight Neon palette while keeping the same layout and component contracts.
+All visual tokens live at the top of `src/app/globals.css`. Dark mode uses warm
+ink; `[data-theme="light"]` swaps to parchment and deeper accent colours.
+The canvas reads the same CSS tokens and updates when the theme changes.
 
 | Token | Dark value | Use |
 | --- | --- | --- |
-| `--void` | `#05060F` | Page background |
-| `--panel` | `#0B0F24` | Cards and surfaces |
-| `--panel-2` | `#121836` | Raised surfaces |
-| `--cyan` | `#00F0FF` | Links, focus, primary signal |
-| `--magenta` | `#FF2E9A` | Hover, active and secondary signal |
-| `--violet` | `#8B5CFF` | Gradient midpoint |
-| `--acid` | `#F7FF3C` | Rare status/warning accent |
-| `--text` | `#E6F1FF` | Body text |
-| `--muted` | `#A9B6D9` | Supporting text |
+| `--void` | `#191817` | Warm ink background |
+| `--panel` | `#23211F` | Cards and surfaces |
+| `--panel-2` | `#302C28` | Raised surfaces |
+| `--paper` | `#EEE6D6` | Artwork and editorial paper |
+| `--accent` | `#FF816E` | Vermilion links and focus (deep red in light mode) |
+| `--oxblood` | `#9E302F` | Print artwork and fixed red details |
+| `--sage` | `#C4CBA3` | Celadon status and contour accent |
+| `--text` | `#EEE6D6` | Body text |
+| `--muted` | `#C0B8AB` | Supporting text |
 
 To change the look, edit the token values rather than individual components.
-The signature gradient is `--gradient`; typography uses `next/font` variables
-for Orbitron, Inter, JetBrains Mono, and Noto Sans JP.
+Typography uses self-hosted `next/font` Barlow Condensed, Inter, JetBrains Mono,
+and Noto Sans JP; occasional system-serif italics create editorial contrast.
+Legacy colour names are aliases so existing route components remain compatible.
+
+Layout proportions use the same token block: `--page-gutter` scales from 20–48px,
+`--section-gap` from 64–110px, and `--card-gap` from 20–32px. The content container
+caps at 1264px; project covers retain a 4:3 ratio and the sculpture keeps its
+intrinsic 25:28 SVG ratio. Tablet previews become image/text rows rather than
+cramped three-column cards. Chat is bounded by viewport width and dynamic height.
+
+Japanese labels use a 6KB Google Fonts subset at
+`src/app/fonts/noto-jp-labels.woff2`, served through `next/font/local` with its
+OFL license alongside it. The subset covers `ようこそ自己紹介作品技術連絡概要学歴設計創造`;
+add glyphs to the subset if those decorative labels change. The short first-visit
+boot sequence is a dismissible corner card, not a gate hiding the page.
+
+`src/components/AmbientCanvas.tsx` owns the background and sets the root
+`data-motion` attribute. SVG float, ticker, and typing effects honour this
+switch. `SignalSculpture.tsx` also pauses offscreen; its tilt only runs on fine
+pointers. No 3D engine or large background video is needed.
+
+## UI regression checks
+
+`tests/portfolio.spec.ts` runs against a production build on port 3101. It checks
+the five routes at 360, 768, and 1440px in both themes with axe, horizontal
+overflow and browser errors, plus keyboard navigation, native-dialog focus,
+theme persistence, chat prompts, contact validation, and canvas pause/reduced
+motion. Run `npm run build` before `npm run test:ui`.
+
+Visual reference: [Nikita Nalekar’s UI UX Portfolio 2025](https://www.behance.net/gallery/225765431/UI-UX-Portfolio-2025).
+The reference informed the bold editorial hierarchy and restricted palette;
+the artwork, composition, code, and motion here are original.
+
+### Local validation — October 2026
+
+- Lint, TypeScript, and production build passed.
+- All 11 Chromium tests passed, including axe across the five routes at
+  360/768/1440px in both themes, and geometry checks at 360/768/1024/1440/1920px
+  plus 844×390 landscape.
+- Lighthouse mobile, local production home page: Performance **96**, Accessibility
+  **100**, Best Practices **100**, SEO **100**; LCP **2.7s**, CLS **0.025**.
+  This is a lab measurement, not a deployed-site guarantee. LCP is still above
+  the original 2.5s target and should be rechecked on Vercel.
+- The font/animation payload work reduced the measured home transfer from
+  roughly 663KiB to 305KiB without removing the dynamic background.
+- `npm audit --omit=dev` reports six existing production dependency advisories,
+  including a critical advisory against the pinned Next.js 16.2.7. No forced
+  framework upgrade was bundled into the visual refresh; address this before deployment.
 
 ## Content and links
 
