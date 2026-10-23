@@ -1,138 +1,73 @@
 "use client";
 
-import { motion } from "framer-motion";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { projects, type Project, type ProjectCategory } from "@/data/portfolio";
+import { ArrowRight, ArrowUpRight, Chip, Reveal, SectionHeading } from "@/components/ui";
 
-export default function ProjectsPage() {
-  const projects = [
-    {
-      name: "Friday AI — Voice Assistant",
-      desc: "A modular voice assistant built with LangChain for task orchestration, FAISS for contextual memory, and the Gemini API for natural language understanding. My attempt at building a personal AI that actually remembers what you told it five minutes ago.\n\n",
-      tags: ["Python", "LangChain", "FAISS", "Gemini"],
-      link: "https://github.com/bismillah626/Friday_AI_Assistant-ff--_--_V2",
-      accent: "var(--accent-purple)",
-      gradient: "linear-gradient(135deg, rgba(99,102,241,0.15) 0%, rgba(139,92,246,0.08) 100%)",
-    },
-    {
-      name: "giT_gUarDiaN",
-      desc: "A multi-agent AI platform that reviews every pull request like a senior engineer checking code quality, security vulnerabilities, missing tests, and documentation. Built with a LangGraph supervisor orchestrating four specialist agents, grounded by deterministic static analysis tools (Bandit, Semgrep, Gitleaks) so the LLM never invents findings from scratch.\n\n",
-      tags: ["Python", "LangGraph", "FastAPI", "Docker", "ChromaDB"],
-      link: "https://github.com/bismillah626/git_gUardiaN",
-      accent: "var(--accent-gold)",
-      gradient: "linear-gradient(135deg, rgba(251,191,36,0.1) 0%, rgba(245,158,11,0.05) 100%)",
-    },
+const filters: ("ALL" | ProjectCategory)[] = ["ALL", "LLM & Agents", "ML", "NLP"];
 
-    {
-      name: "Spam Email Classifier",
-      desc: "Chrome extension backed by a Flask API. Uses an ensemble NLP pipeline that hits 98% accuracy. The kind of project where the engineering under the hood is way more interesting than it looks on the surface.\n\n",
-      tags: ["Python", "Flask", "NLP", "Scikit-learn"],
-      link: "https://github.com/bismillah626/spam_project",
-      accent: "var(--accent-cyan)",
-      gradient: "linear-gradient(135deg, rgba(6,182,212,0.12) 0%, rgba(34,211,238,0.06) 100%)",
-    },
+function ArchitectureDiagram({ project }: { project: Project }) {
+  return (
+    <svg className="architecture-diagram" viewBox="0 0 720 170" role="img" aria-label={`Architecture flow for ${project.title}`}>
+      <defs><linearGradient id="diagram-gradient" x1="0" x2="1"><stop stopColor="var(--cyan)" /><stop offset=".55" stopColor="var(--violet)" /><stop offset="1" stopColor="var(--magenta)" /></linearGradient></defs>
+      <path d="M30 85H690" stroke="url(#diagram-gradient)" strokeWidth="1" strokeDasharray="5 6" opacity=".7" />
+      {project.architecture.map((item, index) => {
+        const x = 26 + index * (650 / Math.max(project.architecture.length - 1, 1));
+        return <g key={item}><rect x={x - 54} y="57" width="108" height="56" fill="var(--panel-2)" stroke={index % 2 ? "var(--magenta)" : "var(--cyan)"} strokeWidth="1" /><circle cx={x} cy="85" r="4" fill={index % 2 ? "var(--magenta)" : "var(--cyan)"} /><text x={x} y="133" textAnchor="middle" fill="var(--muted)" fontFamily="var(--font-jetbrains)" fontSize="9">{item.length > 18 ? `${item.slice(0, 16)}…` : item}</text></g>;
+      })}
+    </svg>
+  );
+}
 
-    {
-      name: "Nike E-Commerce App",
-      desc: "A Flutter mobile app with clean product listings and smooth navigation. More of a design-focused project wanted to see how far I could push mobile UI polish.\n\n",
-      tags: ["Flutter", "Dart", "Mobile"],
-      link: "https://github.com/bismillah626/Nike_ecommerce_store-",
-      accent: "var(--accent-pink)",
-      gradient: "linear-gradient(135deg, rgba(244,114,182,0.12) 0%, rgba(236,72,153,0.06) 100%)",
-    },
-  ];
+function ProjectModal({ project, onClose }: { project: Project; onClose: () => void }) {
+  useEffect(() => {
+    const closeOnEscape = (event: KeyboardEvent) => { if (event.key === "Escape") onClose(); };
+    document.addEventListener("keydown", closeOnEscape);
+    document.body.style.overflow = "hidden";
+    return () => { document.removeEventListener("keydown", closeOnEscape); document.body.style.overflow = ""; };
+  }, [onClose]);
 
   return (
-    <div className="page-content">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      >
-        {/* Header */}
-        <div className="mb-16">
-          <p className="section-label">Projects</p>
-          <h1 className="section-title">
-            Things I&apos;ve built.
-          </h1>
+    <div className="modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
+      <div className="mission-modal hud-card" role="dialog" aria-modal="true" aria-labelledby="mission-title">
+        <div className="mission-modal-top mono"><span>MISSION BRIEFING / {project.number}</span><button type="button" onClick={onClose} aria-label="Close mission briefing">×</button></div>
+        <h2 id="mission-title" className="display text-gradient">{project.title}</h2>
+        <p className="mission-category mono">{project.category} {"//"} {project.metric}</p>
+        <ArchitectureDiagram project={project} />
+        <div className="mission-columns">
+          <div><p className="mono mission-label">PROBLEM</p><p>{project.problem}</p></div>
+          <div><p className="mono mission-label">MY ROLE</p><p>{project.role}</p></div>
         </div>
-
-        {/* Projects — much more spacing */}
-        <div className="flex flex-col gap-10">
-          {projects.map((project, i) => (
-            <motion.a
-              key={project.name}
-              href={project.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15 + i * 0.12, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="group block rounded-2xl transition-all duration-400"
-              style={{
-                background: "var(--bg-card)",
-                border: "1px solid var(--border-subtle)",
-                backdropFilter: "blur(16px)",
-                padding: "2rem 2.25rem",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = project.gradient;
-                e.currentTarget.style.borderColor = `color-mix(in srgb, ${project.accent} 25%, transparent)`;
-                e.currentTarget.style.boxShadow = `0 12px 48px color-mix(in srgb, ${project.accent} 8%, transparent)`;
-                e.currentTarget.style.transform = "translateY(-3px)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = "var(--bg-card)";
-                e.currentTarget.style.borderColor = "var(--border-subtle)";
-                e.currentTarget.style.boxShadow = "none";
-                e.currentTarget.style.transform = "translateY(0)";
-              }}
-            >
-              <div className="flex items-start gap-5">
-                {/* Accent dot */}
-                <div className="w-3 h-3 rounded-full flex-shrink-0 mt-1.5" style={{ background: project.accent }} />
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-3 mb-4">
-                    <h3
-                      className="text-xl md:text-2xl font-semibold"
-                      style={{ color: "var(--text-primary)", fontFamily: "var(--font-heading)" }}
-                    >
-                      {project.name}
-                    </h3>
-                    <svg
-                      width="18" height="18" viewBox="0 0 24 24" fill="none"
-                      stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                      className="flex-shrink-0 transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
-                      style={{ color: project.accent, opacity: 0.5 }}
-                    >
-                      <path d="M7 17L17 7" /><path d="M7 7h10v10" />
-                    </svg>
-                  </div>
-                  <p
-                    className="text-sm md:text-base leading-[1.8] mb-6"
-                    style={{ color: "var(--text-secondary)" }}
-                  >
-                    {project.desc}
-                  </p>
-                  <div className="flex flex-wrap gap-2.5">
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-xs font-mono px-3.5 py-1.5 rounded-full"
-                        style={{
-                          background: `color-mix(in srgb, ${project.accent} 8%, transparent)`,
-                          color: project.accent,
-                          border: `1px solid color-mix(in srgb, ${project.accent} 12%, transparent)`,
-                        }}
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </motion.a>
-          ))}
-        </div>
-      </motion.div>
+        <div className="mission-block"><p className="mono mission-label">RESULTS</p><ul>{project.results.map((result) => <li key={result}>{result}</li>)}</ul></div>
+        <div className="mission-actions"><Link href={project.github} target="_blank" rel="noopener noreferrer" className="button-primary">GitHub <ArrowUpRight /></Link>{project.live && <Link href={project.live} target="_blank" rel="noopener noreferrer" className="button-secondary">Live link <ArrowUpRight /></Link>}<button type="button" className="button-secondary" onClick={onClose}>Close <ArrowRight /></button></div>
+      </div>
     </div>
+  );
+}
+
+export default function ProjectsPage() {
+  const [activeFilter, setActiveFilter] = useState<(typeof filters)[number]>("ALL");
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const visibleProjects = activeFilter === "ALL" ? projects : projects.filter((project) => project.category === activeFilter);
+
+  return (
+    <main className="page-main">
+      <SectionHeading eyebrow="Projects" japanese="作品" title="Systems with a signal." description="A focused set of AI/ML builds, from agentic DevSecOps review to explainable prediction and voice interaction." />
+      <div className="filter-row" aria-label="Project filters">{filters.map((filter) => <Chip key={filter} active={activeFilter === filter} onClick={() => setActiveFilter(filter)}>{filter}</Chip>)}</div>
+      <div className="project-grid">
+        {visibleProjects.map((project, index) => (
+          <Reveal key={project.id} delay={index * 0.06} className="project-card hud-card hud-card-hover scanline-once">
+            <div className="project-card-top mono"><span className="project-number">{project.number}</span><span>{project.category}</span></div>
+            <h2 className="display">{project.title}</h2>
+            <p className="project-summary">{project.summary}</p>
+            <div className="project-metric"><span className="mono">KEY METRIC</span><strong>{project.metric}</strong></div>
+            <div className="chip-row">{project.tags.map((tag) => <Chip key={tag}>{tag}</Chip>)}</div>
+            <div className="project-card-actions"><button type="button" className="button-secondary" onClick={() => setSelectedProject(project)}>Briefing <ArrowRight /></button><Link href={project.github} target="_blank" rel="noopener noreferrer" className="project-github" aria-label={`Open ${project.title} GitHub link`}>GitHub <ArrowUpRight /></Link></div>
+          </Reveal>
+        ))}
+      </div>
+      {selectedProject && <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />}
+    </main>
   );
 }
