@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Barlow_Condensed, Inter, JetBrains_Mono, Noto_Sans_JP } from "next/font/google";
+import { Barlow_Condensed, Inter, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import Navbar from "@/components/Navbar";
 import AmbientCanvas from "@/components/AmbientCanvas";
 import PageTransition from "@/components/PageTransition";
@@ -11,23 +12,29 @@ import "./globals.css";
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+  weight: "400",
+  preload: false,
 });
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains",
   subsets: ["latin"],
+  weight: "400",
+  preload: false,
 });
 
 const display = Barlow_Condensed({
   variable: "--font-barlow",
   subsets: ["latin"],
-  weight: ["600", "700"],
+  weight: "700",
 });
 
-const notoSansJp = Noto_Sans_JP({
+const notoSansJp = localFont({
+  src: "./fonts/noto-jp-labels.woff2",
   variable: "--font-noto-jp",
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
+  weight: "400",
+  display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {

@@ -1,8 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useReducedMotion, type HTMLMotionProps } from "framer-motion";
-import type { ReactNode } from "react";
+import { useEffect, useRef, type CSSProperties, type HTMLAttributes, type ReactNode } from "react";
 
 export function ArrowUpRight({ size = 16 }: { size?: number }) {
   return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M7 17 17 7" /><path d="M7 7h10v10" /></svg>;
@@ -49,19 +48,30 @@ export function Chip({ children, active = false, onClick }: { children: ReactNod
   return <span className={className}>{children}</span>;
 }
 
-export function Reveal({ children, className = "", delay = 0, ...props }: HTMLMotionProps<"div"> & { delay?: number }) {
-  const reduced = useReducedMotion();
+export function Reveal({ children, className = "", delay = 0, style, ...props }: HTMLAttributes<HTMLDivElement> & { delay?: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const element = ref.current;
+    if (!element || !("IntersectionObserver" in window)) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches && document.documentElement.dataset.motion !== "paused") {
+        element.dataset.revealed = "true";
+      }
+      observer.disconnect();
+    }, { threshold: .15 });
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
   return (
-    <motion.div
-      className={className}
-      initial={{ y: reduced ? 0 : 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      transition={{ duration: reduced ? 0 : 0.6, delay: reduced ? 0 : delay, ease: [0.22, 1, 0.36, 1] }}
+    <div
+      ref={ref}
+      className={`reveal ${className}`}
+      style={{ ...style, "--reveal-delay": `${delay}s` } as CSSProperties}
       {...props}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }
 
