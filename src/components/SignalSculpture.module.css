@@ -1,0 +1,126 @@
+.sculpture {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  max-width: 38rem;
+  min-width: 0;
+  margin-inline-start: auto;
+  align-self: center;
+  justify-self: end;
+  color: var(--text, #24211f);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.tilt {
+  transform: none;
+  transform-origin: 50% 48%;
+}
+
+.art {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 25 / 28;
+  overflow: visible;
+}
+
+.float {
+  transform-box: view-box;
+  transform-origin: 50% 47%;
+  animation: signal-float 9s ease-in-out infinite;
+  animation-play-state: paused;
+}
+
+.registration,
+.scale {
+  stroke: var(--text, #24211f);
+  opacity: 0.42;
+}
+
+.registration path,
+.scale path,
+.rule,
+.accentStroke {
+  vector-effect: non-scaling-stroke;
+}
+
+.accentStroke {
+  stroke: var(--accent, #9e302f);
+}
+
+.rule {
+  stroke: var(--line, #24211f);
+  opacity: 0.5;
+}
+
+.caption {
+  fill: var(--text, #24211f);
+  font-family: var(--font-mono, "Courier New", monospace);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 1.6px;
+}
+
+.index {
+  fill: var(--accent, #9e302f);
+}
+
+@keyframes signal-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-0.35deg);
+  }
+
+  50% {
+    transform: translateY(-6px) rotate(0.35deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sculpture[data-active="true"] .float {
+    animation-play-state: running;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  .sculpture[data-active="true"] .tilt {
+    transform: perspective(1000px) rotateX(var(--signal-rotate-x, 0deg)) rotateY(var(--signal-rotate-y, 0deg));
+    transition: transform 240ms cubic-bezier(0.2, 0.65, 0.3, 1);
+  }
+}
+
+/* CSS gates the root switch immediately, even before the observer runs. */
+:global(:root[data-motion="paused"]) .sculpture .float {
+  animation-play-state: paused;
+}
+
+:global(:root[data-motion="paused"]) .sculpture .tilt {
+  transform: none;
+  transition: none;
+}
+
+@media (max-width: 640px) {
+  .sculpture {
+    max-width: 30rem;
+    margin-inline: auto;
+    justify-self: center;
+  }
+
+  .caption {
+    font-size: 11px;
+    letter-spacing: 1.25px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sculpture .float {
+    animation: none;
+    transform: none;
+  }
+
+  .sculpture .tilt {
+    transform: none;
+    transition: none;
+  }
+}
