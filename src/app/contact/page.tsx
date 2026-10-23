@@ -1,110 +1,45 @@
 "use client";
 
-import { motion } from "framer-motion";
+import Link from "next/link";
+import { FormEvent, useState } from "react";
+import { profile } from "@/data/portfolio";
+import { ArrowUpRight, GithubIcon, LinkedinIcon, Reveal, SectionHeading } from "@/components/ui";
+
+function PigeonIcon() {
+  return <svg viewBox="0 0 80 52" fill="none" aria-hidden="true"><path d="M8 37c10-12 13-26 29-28 10-1 20 4 27 13l8-4-4 9 5 6H52c-8 13-31 16-44 4Z" stroke="currentColor" strokeWidth="2" /><circle cx="54" cy="19" r="2" fill="currentColor" /><path d="M19 36c6-2 11-9 14-17m-10 23 2 6m7-6 2 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>;
+}
 
 export default function ContactPage() {
+  const [sent, setSent] = useState(false);
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    const subject = encodeURIComponent(`Portfolio transmission from ${form.get("name") ?? "a visitor"}`);
+    const body = encodeURIComponent(`Name: ${form.get("name") ?? ""}\nEmail: ${form.get("email") ?? ""}\n\n${form.get("message") ?? ""}`);
+    setSent(true);
+    window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`;
+  };
+
   return (
-    <div className="page-content">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      >
-        {/* Header */}
-        <div className="mb-14">
-          <p className="section-label">Contact</p>
-          <h1 className="section-title">
-            Let&apos;s connect.
-          </h1>
-        </div>
-
-        {/* Content */}
-        <div className="space-y-6">
-          <motion.p
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-            className="text-lg md:text-xl leading-relaxed max-w-lg"
-            style={{ color: "var(--text-secondary)", fontFamily: "var(--font-heading)" }}
-          >
-            Always up for interesting conversations and new opportunities.
-          </motion.p>
-
-          {/* Email Card */}
-          <motion.a
-            href="mailto:khanbismillah2004@gmail.com"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-            className="glass-card flex items-center gap-5 p-6 md:p-7 group"
-          >
-            <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "rgba(251,191,36,0.08)" }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <rect width="20" height="16" x="2" y="4" rx="2" />
-                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-              </svg>
-            </div>
-            <div>
-              <p className="text-xs uppercase tracking-[0.2em] mb-1" style={{ color: "var(--text-muted)" }}>Email</p>
-              <p className="text-base md:text-lg font-medium" style={{ color: "var(--text-primary)" }}>khanbismillah2004@gmail.com</p>
-            </div>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ color: "var(--accent-gold)" }}>
-              <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
-            </svg>
-          </motion.a>
-
-          {/* GitHub Card */}
-          <motion.a
-            href="https://github.com/bismillah626"
-            target="_blank"
-            rel="noopener noreferrer"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-            className="glass-card flex items-center gap-5 p-6 md:p-7 group"
-          >
-            <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "rgba(167,139,250,0.08)" }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-purple)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
-                <path d="M9 18c-4.51 2-5-2-7-2" />
-              </svg>
-            </div>
-            <div>
-              <p className="text-xs uppercase tracking-[0.2em] mb-1" style={{ color: "var(--text-muted)" }}>GitHub</p>
-              <p className="text-base md:text-lg font-medium" style={{ color: "var(--text-primary)" }}>bismillah626</p>
-            </div>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ color: "var(--accent-purple)" }}>
-              <path d="M7 17L17 7" /><path d="M7 7h10v10" />
-            </svg>
-          </motion.a>
-
-          {/* LinkedIn Card */}
-          <motion.a
-            href="https://linkedin.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.6 }}
-            className="glass-card flex items-center gap-5 p-6 md:p-7 group"
-          >
-            <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "rgba(103,232,232,0.08)" }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-                <rect width="4" height="12" x="2" y="9" />
-                <circle cx="4" cy="4" r="2" />
-              </svg>
-            </div>
-            <div>
-              <p className="text-xs uppercase tracking-[0.2em] mb-1" style={{ color: "var(--text-muted)" }}>LinkedIn</p>
-              <p className="text-base md:text-lg font-medium" style={{ color: "var(--text-primary)" }}>Bismillah Khan</p>
-            </div>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ color: "var(--accent-cyan)" }}>
-              <path d="M7 17L17 7" /><path d="M7 7h10v10" />
-            </svg>
-          </motion.a>
-        </div>
-      </motion.div>
-    </div>
+    <main className="page-main">
+      <SectionHeading eyebrow="Contact" japanese="連絡" title="Send a transmission." description="Email, LinkedIn, carrier pigeon — the channel is up. For the form below, this portfolio uses a mailto fallback and opens your local email client." />
+      <div className="contact-grid">
+        <Reveal className="hud-card contact-panel">
+          <div className="contact-panel-top mono"><span>DIRECT CHANNELS</span><span>OPEN</span></div>
+          <div className="contact-pigeon"><PigeonIcon /></div>
+          <p className="contact-lead">Have a role, a system to untangle, or an interesting AI/ML problem?</p>
+          <div className="contact-links">
+            <Link href={`mailto:${profile.email}`} className="contact-link"><span className="contact-link-icon">@</span><span><small className="mono">EMAIL</small><strong>{profile.email}</strong></span><ArrowUpRight /></Link>
+            <Link href={profile.github} target="_blank" rel="noopener noreferrer" className="contact-link"><span className="contact-link-icon"><GithubIcon /></span><span><small className="mono">GITHUB</small><strong>bismillah626</strong></span><ArrowUpRight /></Link>
+            <Link href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="contact-link"><span className="contact-link-icon"><LinkedinIcon /></span><span><small className="mono">LINKEDIN</small><strong>Bismillah Khan</strong></span><ArrowUpRight /></Link>
+          </div>
+        </Reveal>
+        <Reveal delay={0.1} className="hud-card contact-form-panel">
+          <div className="contact-panel-top mono"><span>&gt; SEND TRANSMISSION</span><span>MAILTO / FALLBACK</span></div>
+          {sent ? <div className="form-success"><span className="form-success-mark">✓</span><p className="mono">TRANSMISSION QUEUED</p><h2 className="display">Check your<br /><span className="text-gradient">mail client.</span></h2><p>The form prepared a new message addressed to {profile.email}.</p></div> : <form onSubmit={handleSubmit} className="terminal-form"><label htmlFor="name" className="mono">NAME <span>*</span></label><input id="name" name="name" className="input-terminal" required placeholder="Your name" /><label htmlFor="email" className="mono">EMAIL <span>*</span></label><input id="email" name="email" type="email" className="input-terminal" required placeholder="you@example.com" /><label htmlFor="message" className="mono">MESSAGE <span>*</span></label><textarea id="message" name="message" className="input-terminal" required rows={6} placeholder="Write your message..." /><button type="submit" className="button-primary">Transmit <ArrowUpRight /></button></form>}
+        </Reveal>
+      </div>
+    </main>
   );
 }
