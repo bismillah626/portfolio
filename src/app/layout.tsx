@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono, Noto_Sans_JP, Orbitron } from "next/font/google";
+import { Barlow_Condensed, Inter, JetBrains_Mono, Noto_Sans_JP } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import AmbientCanvas from "@/components/AmbientCanvas";
 import PageTransition from "@/components/PageTransition";
@@ -18,10 +18,10 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
 });
 
-const orbitron = Orbitron({
-  variable: "--font-orbitron",
+const display = Barlow_Condensed({
+  variable: "--font-barlow",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["600", "700"],
 });
 
 const notoSansJp = Noto_Sans_JP({
@@ -76,19 +76,20 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${jetbrainsMono.variable} ${orbitron.variable} ${notoSansJp.variable} antialiased`}
+      className={`${inter.variable} ${jetbrainsMono.variable} ${display.variable} ${notoSansJp.variable} antialiased`}
       suppressHydrationWarning
     >
       <head>
         <ThemeScript />
       </head>
       <body suppressHydrationWarning>
+        <a className="skip-link" href="#content">Skip to content</a>
         <ThemeProvider>
           <div className="page-shell">
             <div className="site-background" aria-hidden="true" />
             <AmbientCanvas />
             <Navbar />
-            <div>
+            <div id="content" tabIndex={-1}>
               <PageTransition>
                 {children}
               </PageTransition>

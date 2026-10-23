@@ -3,56 +3,69 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { profile } from "@/data/portfolio";
-import { ArrowRight, SocialLinks } from "./ui";
+import { ArrowRight, ArrowUpRight, SocialLinks } from "./ui";
+import SignalSculpture from "./SignalSculpture";
 
 const roles = ["AI/ML ENGINEER", "LLM SYSTEMS BUILDER", "NLP PIPELINES", "APPLIED MACHINE LEARNING"];
 
-export default function HomeHero() {
-  const [roleIndex, setRoleIndex] = useState(0);
+function TypedRole() {
   const [typed, setTyped] = useState(roles[0]);
-  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
-    const current = roles[roleIndex];
-    const delay = deleting ? 42 : 82;
-    const timer = window.setTimeout(() => {
-      if (!deleting && typed === current) {
-        setDeleting(true);
-      } else if (deleting && typed.length === 0) {
-        setDeleting(false);
-        setRoleIndex((index) => (index + 1) % roles.length);
-      } else {
-        setTyped(deleting ? current.slice(0, typed.length - 1) : current.slice(0, typed.length + 1));
-      }
-    }, typed === current && !deleting ? 1500 : delay);
-    return () => window.clearTimeout(timer);
-  }, [deleting, roleIndex, typed]);
+    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let timer: ReturnType<typeof setTimeout>;
+    let index = 0;
+    let length = roles[0].length;
+    let deleting = true;
+    const step = () => {
+      if (query.matches || document.hidden || document.documentElement.dataset.motion === "paused") return;
+      length += deleting ? -1 : 1;
+      setTyped(roles[index].slice(0, length));
+      let delay = deleting ? 45 : 75;
+      if (length === 0) { index = (index + 1) % roles.length; deleting = false; delay = 200; }
+      else if (length === roles[index].length) { deleting = true; delay = 2200; }
+      timer = setTimeout(step, delay);
+    };
+    const sync = () => { clearTimeout(timer); timer = setTimeout(step, 2200); };
+    const observer = new MutationObserver(sync);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-motion"] });
+    query.addEventListener("change", sync);
+    document.addEventListener("visibilitychange", sync);
+    sync();
+    return () => { clearTimeout(timer); observer.disconnect(); query.removeEventListener("change", sync); document.removeEventListener("visibilitychange", sync); };
+  }, []);
 
+  return <div className="hero-role mono"><span className="sr-only">AI/ML Engineer, LLM systems builder, NLP pipelines, applied machine learning.</span><span aria-hidden="true">{typed}<span className="cursor-blink">_</span></span></div>;
+}
+
+export default function HomeHero() {
   return (
-    <section className="home-hero">
-      <div className="home-hero-grid" aria-hidden="true" />
-      <div className="home-hero-bracket bracket-one" aria-hidden="true" />
-      <div className="home-hero-bracket bracket-two" aria-hidden="true" />
-      <div className="home-hero-content">
-        <p className="mono hero-kicker"><span className="jp">ようこそ</span><span>{"// WELCOME"}</span></p>
-        <p className="mono hero-index">[ 001 / SIGNAL FOUND ]</p>
-        <h1 className="display hero-title glitch-load">BISMILLAH<br /><span className="text-gradient">KHAN</span></h1>
-        <div className="hero-role mono" aria-live="polite"><span className="hero-prompt">&gt;</span> {typed}<span className="cursor-blink hero-cursor">_</span></div>
-        <p className="hero-tagline">{profile.tagline}</p>
-        <div className="hero-status"><span className="status-tag">Open to AI/ML internships &amp; roles</span></div>
-        <div className="hero-actions">
-          <Link href="/projects" className="button-primary">View projects <ArrowRight /></Link>
-          <Link href={profile.resume} target="_blank" rel="noopener noreferrer" className="button-secondary">Download resume <ArrowRight /></Link>
-          <SocialLinks compact />
+    <section className="editorial-hero" aria-labelledby="hero-title">
+      <div className="hero-masthead mono">
+        <p><span className="jp" lang="ja">ようこそ</span><span>WELCOME TO MY CORNER OF THE INTERNET</span></p>
+        <span>PORTFOLIO — VOL. 26</span>
+      </div>
+      <div className="hero-composition">
+        <div className="hero-copy">
+          <p className="hero-intro mono"><span aria-hidden="true">✳</span> A LITTLE CURIOSITY. A LOT OF CODE.</p>
+          <h1 className="display" id="hero-title">BISMILLAH<br /><span>KHAN<span className="hero-period">.</span></span></h1>
+          <TypedRole />
+          <p className="hero-tagline">{profile.tagline}</p>
+          <div className="hero-actions">
+            <Link href="#selected-work" className="button-primary">Explore my work <ArrowRight /></Link>
+            <Link href={profile.resume} target="_blank" rel="noopener noreferrer" className="text-link">Download résumé <ArrowUpRight /></Link>
+          </div>
+          <div className="hero-socials"><SocialLinks compact /><span className="status-tag">Open to AI/ML<br />internships &amp; roles</span></div>
         </div>
-        <div className="hero-meta mono">
-          <span>IIIT BHUBANESWAR / B.TECH CSE</span>
-          <span className="hero-meta-separator">{"///"}</span>
-          <span>CGPA 8.05</span>
+        <div className="hero-art-panel">
+          <div className="art-caption mono"><span>FORM / FUNCTION / INTELLIGENCE</span><span>↗</span></div>
+          <span className="art-disc" aria-hidden="true" />
+          <SignalSculpture />
+          <span className="art-side-note mono" aria-hidden="true">AN EXPERIMENT IN CONNECTION</span>
+          <span className="art-stamp" aria-hidden="true"><span className="jp">創造</span><small>CREATE</small></span>
         </div>
       </div>
-      <div className="hero-orbit" aria-hidden="true"><span /><span /><span /></div>
-      <div className="hero-scroll-cue mono" aria-hidden="true"><span>SCROLL TO EXPLORE</span><span className="scroll-arrow">↓</span></div>
+      <div className="hero-colophon mono"><span>B.TECH CSE · IIIT BHUBANESWAR</span><span>2023 — 2027</span><a href="#selected-work">SCROLL TO DISCOVER <span aria-hidden="true">↓</span></a></div>
     </section>
   );
 }

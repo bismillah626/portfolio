@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion, type HTMLMotionProps } from "framer-motion";
+import { motion, useReducedMotion, type HTMLMotionProps } from "framer-motion";
 import type { ReactNode } from "react";
 
 export function ArrowUpRight({ size = 16 }: { size?: number }) {
@@ -37,7 +37,7 @@ export function SectionHeading({
   return (
     <header className="section-heading">
       <p className="hud-label"><span>{eyebrow}</span><span className="jp">/ {japanese}</span></p>
-      <Heading className="display text-gradient glitch-load">{title}</Heading>
+      <Heading className="display">{title}</Heading>
       {description && <p>{description}</p>}
     </header>
   );
@@ -45,18 +45,19 @@ export function SectionHeading({
 
 export function Chip({ children, active = false, onClick }: { children: ReactNode; active?: boolean; onClick?: () => void }) {
   const className = `data-chip ${active ? "is-active" : ""}`;
-  if (onClick) return <button type="button" className={className} onClick={onClick}>{children}</button>;
+  if (onClick) return <button type="button" className={className} aria-pressed={active} onClick={onClick}>{children}</button>;
   return <span className={className}>{children}</span>;
 }
 
 export function Reveal({ children, className = "", delay = 0, ...props }: HTMLMotionProps<"div"> & { delay?: number }) {
+  const reduced = useReducedMotion();
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ y: reduced ? 0 : 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.15 }}
-      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: reduced ? 0 : 0.6, delay: reduced ? 0 : delay, ease: [0.22, 1, 0.36, 1] }}
       {...props}
     >
       {children}
