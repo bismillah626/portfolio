@@ -1,33 +1,43 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono, Playfair_Display } from "next/font/google";
-import Sidebar from "@/components/Sidebar";
-import AtmosphereParticles from "@/components/AtmosphereParticles";
+import { Inter, JetBrains_Mono, Noto_Sans_JP, Orbitron } from "next/font/google";
+import Navbar from "@/components/Navbar";
+import AmbientCanvas from "@/components/AmbientCanvas";
 import PageTransition from "@/components/PageTransition";
 import { ThemeProvider, ThemeScript } from "@/components/ThemeProvider";
-import LampToggle from "@/components/LampToggle";
-import ThemeBackground from "@/components/ThemeBackground";
+import Footer from "@/components/Footer";
+import Chatbot from "@/components/Chatbot";
 import "./globals.css";
 
 const inter = Inter({
-  variable: "--font-geist-sans",
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
 const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-geist-mono",
+  variable: "--font-jetbrains",
   subsets: ["latin"],
 });
 
-const playfair = Playfair_Display({
-  variable: "--font-space-grotesk",
+const orbitron = Orbitron({
+  variable: "--font-orbitron",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
 
+const notoSansJp = Noto_Sans_JP({
+  variable: "--font-noto-jp",
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+});
+
 export const metadata: Metadata = {
-  title: "Bismillah Khan — AI/ML Engineer",
+  metadataBase: new URL("https://portfolio-red-xi-76.vercel.app"),
+  title: {
+    default: "Bismillah Khan // AI/ML Engineer",
+    template: "%s // Bismillah Khan",
+  },
   description:
-    "Portfolio of Bismillah Khan, an AI/ML Engineer specializing in LLM-driven systems, NLP pipelines, and high-accuracy predictive models.",
+    "AI/ML Engineer building modular, scalable systems and high-accuracy predictive models.",
   keywords: [
     "AI Engineer",
     "ML Engineer",
@@ -38,12 +48,24 @@ export const metadata: Metadata = {
     "Bismillah Khan",
   ],
   authors: [{ name: "Bismillah Khan" }],
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "Bismillah Khan — AI/ML Engineer",
+    title: "Bismillah Khan // AI/ML Engineer",
     description:
       "AI/ML Engineer building modular, scalable systems and high-accuracy predictive models.",
     type: "website",
+    url: "https://portfolio-red-xi-76.vercel.app",
+    siteName: "Bismillah Khan Portfolio",
+    images: [{ url: "/og.svg", width: 1200, height: 630, alt: "Bismillah Khan AI/ML Engineer portfolio" }],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Bismillah Khan // AI/ML Engineer",
+    description:
+      "AI/ML Engineer building modular, scalable systems and high-accuracy predictive models.",
+    images: ["/og.svg"],
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({
@@ -54,7 +76,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${jetbrainsMono.variable} ${playfair.variable} antialiased`}
+      className={`${inter.variable} ${jetbrainsMono.variable} ${orbitron.variable} ${notoSansJp.variable} antialiased`}
       suppressHydrationWarning
     >
       <head>
@@ -62,19 +84,17 @@ export default function RootLayout({
       </head>
       <body suppressHydrationWarning>
         <ThemeProvider>
-          <div className="relative min-h-screen overflow-x-hidden">
-            {/* ===== BACKGROUND (switches with theme) ===== */}
-            <ThemeBackground />
-
-            <AtmosphereParticles />
-            <Sidebar />
-            <LampToggle />
-
-            <main className="relative z-20">
+          <div className="page-shell">
+            <div className="site-background" aria-hidden="true" />
+            <AmbientCanvas />
+            <Navbar />
+            <div>
               <PageTransition>
                 {children}
               </PageTransition>
-            </main>
+            </div>
+            <Footer />
+            <Chatbot />
           </div>
         </ThemeProvider>
       </body>
