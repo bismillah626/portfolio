@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, useCallback } from "react";
+import { createContext, useContext, useCallback, useSyncExternalStore } from "react";
 
 type Theme = "dark" | "light";
 
@@ -46,35 +46,22 @@ export function ThemeScript() {
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("dark");
-  const [mounted, setMounted] = useState(false);
-
-  // On mount, read the actual attribute that was set by the inline script
-  useEffect(() => {
-    setMounted(true);
-    const current = document.documentElement.getAttribute("data-theme") as Theme;
-    if (current === "light" || current === "dark") {
-      setTheme(current);
-    }
+  const subscribe = useCallback((onStoreChange: () => void) => {
+    window.addEventListener("portfolio-theme-change", onStoreChange);
+    return () => window.removeEventListener("portfolio-theme-change", onStoreChange);
   }, []);
+  const getSnapshot = useCallback((): Theme => {
+    const current = document.documentElement.getAttribute("data-theme");
+    return current === "light" ? "light" : "dark";
+  }, []);
+  const theme = useSyncExternalStore(subscribe, getSnapshot, (): Theme => "dark");
 
   const toggleTheme = useCallback(() => {
     const next = theme === "dark" ? "light" : "dark";
-    setTheme(next);
     document.documentElement.setAttribute("data-theme", next);
     localStorage.setItem("portfolio-theme", next);
+    window.dispatchEvent(new Event("portfolio-theme-change"));
   }, [theme]);
-
-  // Before mount, still provide context with the default "dark" value
-  // so children can render — the inline script already set the correct
-  // data-theme attribute on <html>, so CSS variables are correct.
-  if (!mounted) {
-    return (
-      <ThemeContext.Provider value={{ theme: "dark", toggleTheme: () => {} }}>
-        {children}
-      </ThemeContext.Provider>
-    );
-  }
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
