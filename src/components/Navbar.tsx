@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ThemeToggle from "./ThemeToggle";
 
 const navItems = [
@@ -25,21 +25,45 @@ function LogoMark() {
 export default function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const trigger = document.activeElement as HTMLElement | null;
+    const previousOverflow = document.body.style.overflow;
+    const background = document.querySelectorAll<HTMLElement>("#content, .site-footer, .chat-widget");
+    background.forEach((element) => { element.inert = true; });
+    document.body.style.overflow = "hidden";
+    const focusTimer = window.setTimeout(() => headerRef.current?.querySelector<HTMLElement>(".mobile-nav-link")?.focus(), 300);
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+      if (event.key !== "Tab") return;
+      const controls = Array.from(headerRef.current?.querySelectorAll<HTMLElement>("a, button") ?? []).filter((element) => element.offsetParent !== null && element.tabIndex >= 0);
+      const first = controls[0], last = controls[controls.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+    };
+    const onResize = () => { if (window.innerWidth > 767) setOpen(false); };
+    document.addEventListener("keydown", onKey);
+    window.addEventListener("resize", onResize);
+    return () => { window.clearTimeout(focusTimer); background.forEach((element) => { element.inert = false; }); document.body.style.overflow = previousOverflow; document.removeEventListener("keydown", onKey); window.removeEventListener("resize", onResize); trigger?.focus(); };
+  }, [open]);
 
   return (
-    <header className="site-nav">
+    <header ref={headerRef} className="site-nav">
       <div className="site-nav-inner">
-        <Link href="/" className="brand" onClick={() => setOpen(false)} aria-label="Bismillah Khan home">
+        <Link href="/" className="brand" onClick={() => setOpen(false)}>
           <span className="brand-mark"><LogoMark /></span>
           <span>
             <strong className="display brand-name">BK</strong>
             <span className="mono brand-subtitle">AI / ML ENGINEER</span>
+            <span className="sr-only"> — Bismillah Khan home</span>
           </span>
         </Link>
 
         <nav className="desktop-nav" aria-label="Primary navigation">
           {navItems.map(([href, label]) => (
-            <Link key={href} href={href} className={`nav-link ${pathname === href ? "is-active" : ""}`}>
+            <Link key={href} href={href} aria-current={pathname === href ? "page" : undefined} className={`nav-link ${pathname === href ? "is-active" : ""}`}>
               <span>{label}</span>
             </Link>
           ))}
@@ -67,6 +91,7 @@ export default function Navbar() {
             <Link
               key={href}
               href={href}
+              aria-current={pathname === href ? "page" : undefined}
               className={`mobile-nav-link ${pathname === href ? "is-active" : ""}`}
               onClick={() => setOpen(false)}
               tabIndex={open ? 0 : -1}

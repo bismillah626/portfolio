@@ -17,7 +17,7 @@ export default function ThemeToggle() {
       <span className="theme-switch-track" aria-hidden="true">
         <span className="theme-switch-knob" />
       </span>
-      <span className="mono theme-switch-label">{theme === "dark" ? "NIGHT" : "DAY"}</span>
+      <span className="mono theme-switch-label">{nextTheme.toUpperCase()}</span>
     </button>
   );
 }
