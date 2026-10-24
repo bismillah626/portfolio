@@ -80,7 +80,43 @@ svg { flex-shrink: 0; }
 .skip-link { position: fixed; z-index: 150; top: 10px; left: 10px; padding: 12px 20px; color: var(--on-accent); background: var(--accent); transform: translateY(-180%); }
 .skip-link:focus { transform: none; }
 .page-shell { position: relative; isolation: isolate; min-height: 100vh; }
-.site-background { position: fixed; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(ellipse at 90% 12%, color-mix(in srgb, var(--oxblood) 15%, transparent), transparent 65%), var(--void); }
+.site-background {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 78% 34%, color-mix(in srgb, var(--oxblood) 18%, transparent), transparent 38%),
+    linear-gradient(155deg, color-mix(in srgb, var(--oxblood) 9%, transparent), transparent 42%),
+    var(--void);
+}
+.site-background::before {
+  content: "";
+  position: absolute;
+  inset: 42% -15% -20%;
+  opacity: .16;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--accent) 42%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--accent) 32%, transparent) 1px, transparent 1px);
+  background-size: 100% 42px, 58px 100%;
+  mask-image: linear-gradient(to bottom, transparent, #000 28%, #000);
+  transform: perspective(560px) rotateX(54deg) rotateZ(-4deg) scale(1.25);
+  transform-origin: center bottom;
+}
+.site-background::after {
+  content: "";
+  position: absolute;
+  top: 7%;
+  right: 8%;
+  width: min(42vw, 560px);
+  aspect-ratio: 1;
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+  border-radius: 50%;
+  opacity: .34;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 12%, transparent), transparent 62%);
+  box-shadow: 0 0 0 18px color-mix(in srgb, var(--accent) 5%, transparent), 0 0 90px color-mix(in srgb, var(--oxblood) 20%, transparent);
+}
 .page-main { position: relative; width: min(1264px, calc(100% - 2 * var(--page-gutter))); margin-inline: auto; padding: 140px 0 var(--section-gap); }
 .home-page { padding-top: 100px; }
 .section-heading { max-width: 900px; margin-bottom: 48px; }
@@ -278,23 +314,8 @@ button.data-chip:hover, .data-chip.is-active { background: var(--accent); color:
 .mission-block li + li { margin-top: 10px; }
 .mission-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
 
-/* Skills as a connected, readable index, not proficiency scores. */
-.skills-layout { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; align-items: start; }
-.skill-constellation { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-.constellation-lines { position: absolute; inset: 10% 20%; border: 1px solid var(--line); transform: rotate(-12deg); pointer-events: none; }
-.skill-cluster { position: relative; padding: 24px; border: 1px solid var(--line); background: var(--panel); }
-.skill-cluster-header { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
-.skill-cluster-header > span { font-size: 10px; color: var(--accent); }
-.skill-cluster-header strong { font-size: 2rem; }
-.skill-node-list { display: flex; flex-wrap: wrap; gap: 8px; }
-.skill-node { min-height: 44px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 2px; background: transparent; color: var(--muted); font: 11px/1.5 var(--font-code); text-align: left; transition: background 180ms, color 180ms; }
-.skill-node:hover, .skill-node.is-active { color: var(--on-accent); border-color: var(--accent); background: var(--accent); }
-.skill-detail { position: sticky; top: 110px; min-height: 430px; }
-.skill-detail .preview-card-top { margin-bottom: 36px; }
-.skill-detail h2 { font-size: clamp(2.5rem, 4vw, 4rem); margin-top: 24px; overflow-wrap: anywhere; }
-.skill-detail-copy { margin: 24px 0; color: var(--muted); font-size: 14px; }
-.skill-list-fallback { display: none; }
-.fallback-group h2 { margin-top: 12px; }
+/* Skills explorer styles, including responsive and motion states, are scoped
+   to skills/SkillsExplorer.module.css. */
 
 /* Contact / mailto fallback. */
 .contact-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 24px; }
@@ -374,8 +395,6 @@ button.data-chip:hover, .data-chip.is-active { background: var(--accent); color:
   .work-grid { grid-template-columns: 1fr; gap: 40px; }
   .work-card { grid-template-columns: minmax(0, .85fr) minmax(0, 1fr); grid-template-rows: auto; gap: 28px; }
   .work-card-meta { margin-top: 0; }
-  .skills-layout { grid-template-columns: 1fr; }
-  .skill-detail { position: relative; top: auto; min-height: 0; }
   .about-grid { grid-template-columns: .8fr 1.2fr; }
 }
 
@@ -414,7 +433,8 @@ button.data-chip:hover, .data-chip.is-active { background: var(--accent); color:
   .work-card h3 { font-size: 2.8rem; }
   .note-index { font-size: 8px; }
   .note-bottom { flex-direction: column; align-items: flex-start; }
-  .home-contact h2 { font-size: 4.5rem; }
+  .home-contact h2 { font-size: clamp(3.5rem, 20vw, 4.5rem); }
+  .home-contact > a { gap: 16px; }
   .home-contact > a > svg { width: 48px; height: 48px; }
   .section-heading h1, .section-heading h2 { font-size: 3.5rem; }
   .about-grid, .project-grid, .contact-grid, .styleguide-grid { grid-template-columns: 1fr; }
@@ -430,9 +450,8 @@ button.data-chip:hover, .data-chip.is-active { background: var(--accent); color:
   .route-progress { top: 72px; }
 }
 
-@media (max-width: 600px), (prefers-reduced-motion: reduce) {
-  .skills-layout { display: none; }
-  .skill-list-fallback { display: grid; gap: 20px; }
+@media (max-width: 359px) {
+  .hero-copy h1 { font-size: 4.75rem; }
 }
 
 @media (max-height: 600px) {
@@ -453,7 +472,7 @@ button.data-chip:hover, .data-chip.is-active { background: var(--accent); color:
   .route-progress { display: none; }
   .hud-card-hover:hover, .button-primary:hover, .button-secondary:hover, .work-cover-link:hover .project-cover > svg, .work-cover-link:hover .cover-arrow, .home-contact > a:hover > svg { transform: none; }
   .ticker-track { width: 100%; }
-  .ticker-copy { flex-wrap: wrap; gap: 16px; }
+  .ticker-copy { flex: 1 1 100%; min-width: 0; flex-wrap: wrap; gap: 16px; }
   .ticker-copy > span { font-size: 18px; gap: 16px; padding: 0; }
   .ticker-copy + .ticker-copy { display: none; }
 }
