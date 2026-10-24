@@ -49,8 +49,16 @@ test("background changes over time and stops when paused or reduced", async ({ p
   await page.waitForTimeout(300);
   expect(await pixels()).toEqual(reduced);
   expect(await page.locator(".ticker-track").evaluate((el) => getComputedStyle(el).animationName)).toBe("none");
+  await page.setViewportSize({ width: 320, height: 740 });
+  expect(await page.locator(".ticker-copy").first().evaluate((copy) => {
+    const bounds = copy.getBoundingClientRect();
+    return [...copy.children].every((child) => child.getBoundingClientRect().right <= bounds.right);
+  })).toBeTruthy();
   await page.goto("/skills");
-  await expect(page.locator(".skill-list-fallback")).toBeVisible();
+  const cpp = page.getByRole("button", { name: "C++", exact: true });
+  await cpp.click();
+  await expect(cpp).toHaveAttribute("aria-pressed", "true");
+  await expect(page.getByRole("heading", { name: "No recorded project", exact: true })).toBeVisible();
 });
 
 test("keyboard menu, theme persistence, project filter and dialog", async ({ page }) => {
