@@ -9,11 +9,11 @@ Live site: [portfolio-red-xi-76.vercel.app](https://portfolio-red-xi-76.vercel.a
 ## Included
 
 - Five preserved routes: `/`, `/about`, `/projects`, `/skills`, and `/contact`.
-- **Vermilion / Ink** art direction: warm charcoal, parchment, deep red, and celadon, with dark/light themes.
+- **Vermilion / Ink** art direction: cream paper, ink-black, deep red, and coral accents, with dark/light themes.
 - Original folded-ribbon SVG sculpture, BK mark, and illustrated project covers. No third-party character art.
 - Interactive assembled/exploded ribbon views and a pointer-reactive About portrait with a keyboard/touch wink control.
 - Animated ink contours respond to a fine pointer and move independently on touch devices.
-- Red sci-fi atmosphere with a signal sun, perspective city grid, skyline blocks, and animated scanline; all background artwork is original canvas/CSS.
+- Strict background color profile: ink-black/deep red in dark mode and cream-white/brick-red/black in light mode, with a vermilion disc, hand-cut wave bands, half-moon crest field, and animated registration stroke; no olive or brown background tones.
 - Pause/resume control, live reduced-motion support, and hidden-tab suspension. Canvas paints at up to 24fps, caps DPR at 1.5, and uses fewer contours on mobile.
 - Local LazyGPT chat widget with the existing deterministic keyword behavior and suggested prompts.
 - Accessible project filters and mission-briefing modal, interactive skill-to-project explorer, and mailto contact fallback.
@@ -47,13 +47,13 @@ The canvas reads the same CSS tokens and updates when the theme changes.
 
 | Token | Dark value | Use |
 | --- | --- | --- |
-| `--void` | `#191817` | Warm ink background |
-| `--panel` | `#23211F` | Cards and surfaces |
-| `--panel-2` | `#302C28` | Raised surfaces |
+| `--void` | `#101010` | Ink-black background |
+| `--panel` | `#191919` | Cards and surfaces |
+| `--panel-2` | `#242424` | Raised surfaces |
 | `--paper` | `#EEE6D6` | Artwork and editorial paper |
-| `--accent` | `#FF816E` | Vermilion links and focus (deep red in light mode) |
+| `--accent` | `#FF7166` | Red-coral links and focus (deep red in light mode) |
 | `--oxblood` | `#9E302F` | Print artwork and fixed red details |
-| `--sage` | `#C4CBA3` | Celadon status and contour accent |
+| `--sage` | `#FF7166` | Red status and contour accent |
 | `--text` | `#EEE6D6` | Body text |
 | `--muted` | `#C0B8AB` | Supporting text |
 
@@ -114,7 +114,7 @@ the artwork, composition, code, and motion here are original.
 ### Local validation — October 2026
 
 - Lint, TypeScript, and production build passed.
-- Interactive-details update: **27 Chromium tests passed**, covering the new
+- Interactive-details update: **28 Chromium tests passed**, covering the new
   ribbon views, portrait, and skill-to-project navigation in addition to the
   existing route, axe, keyboard, and responsive checks. The new ribbon checks
   include 320px screens; paused ticker labels wrap instead of being cropped.
