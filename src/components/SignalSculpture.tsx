@@ -126,8 +126,8 @@ export default function SignalSculpture({ className }: SignalSculptureProps) {
                   <use href={`#${frontFoldId}`} />
                 </clipPath>
                 <linearGradient id={shadeId} x1="280" y1="260" x2="322" y2="410" gradientUnits="userSpaceOnUse">
-                  <stop stopColor="#24211f" stopOpacity="0" />
-                  <stop offset="1" stopColor="#24211f" stopOpacity="0.24" />
+                  <stop stopColor="var(--art-shadow)" stopOpacity="0" />
+                  <stop offset="1" stopColor="var(--art-shadow)" stopOpacity="0.24" />
                 </linearGradient>
               </defs>
 
@@ -140,87 +140,87 @@ export default function SignalSculpture({ className }: SignalSculptureProps) {
               <path className={styles.accentStroke} d="M450 50H464M464 50V64" strokeWidth="2" />
 
               {/* A hard-edged, translucent ground shadow keeps the drawing filter-free. */}
-              <path d="M119 486 294 477 407 489 232 502Z" fill="#24211f" opacity="0.08" />
-              <path d="M177 487 290 483 350 489 237 495Z" fill="#24211f" opacity="0.06" />
+              <path d="M119 486 294 477 407 489 232 502Z" fill="var(--art-shadow)" opacity="0.08" />
+              <path d="M177 487 290 483 350 489 237 495Z" fill="var(--art-shadow)" opacity="0.06" />
 
               <g className={styles.float}>
                 {/* Band 1: the oblique loop, with a warm cut edge and a dark reverse. */}
                 <g className={styles.band} data-band="oblique">
-                  <path d="M370 115 429 353 182 437 91 308 91 301 180 430 423 351Z" fill="#9e302f" />
-                  <path d="M370 115 423 351 180 430 91 301 370 115ZM330 217 174 296 212 363 341 321Z" fill="#24211f" fillRule="evenodd" />
-                  <path d="M370 115 330 217 174 296 91 301Z" fill="#9e302f" />
-                  <path d="M370 115 330 217 174 296 111 295Z" fill="#24211f" />
-                  <path d="M370 115 423 351 341 321 330 217Z" fill="#eee6d6" />
-                  <path d="M370 115 423 351 396 329Z" fill="#24211f" opacity="0.13" />
-                  <path d="M370 115 377 127 429 353 423 351Z" fill="#ff816e" />
-                  <path d="M330 217 341 321 350 326 338 215Z" fill="#9e302f" />
-                  <path d="M91 301 174 296 212 363 180 430Z" fill="#eee6d6" />
-                  <path d="M423 351 180 430 212 363 341 321Z" fill="#24211f" />
+                  <path d="M370 115 429 353 182 437 91 308 91 301 180 430 423 351Z" fill="var(--art-fold)" />
+                  <path d="M370 115 423 351 180 430 91 301 370 115ZM330 217 174 296 212 363 341 321Z" fill="var(--art-reverse)" fillRule="evenodd" />
+                  <path d="M370 115 330 217 174 296 91 301Z" fill="var(--art-fold)" />
+                  <path d="M370 115 330 217 174 296 111 295Z" fill="var(--art-reverse)" />
+                  <path d="M370 115 423 351 341 321 330 217Z" fill="var(--art-face)" />
+                  <path d="M370 115 423 351 396 329Z" fill="var(--art-shadow)" opacity="0.13" />
+                  <path d="M370 115 377 127 429 353 423 351Z" fill="var(--art-edge)" />
+                  <path d="M330 217 341 321 350 326 338 215Z" fill="var(--art-fold)" />
+                  <path d="M91 301 174 296 212 363 180 430Z" fill="var(--art-face)" />
+                  <path d="M423 351 180 430 212 363 341 321Z" fill="var(--art-reverse)" />
                 </g>
 
                 {/* Band 2: a tall, tapered fold. Its lower face returns in front. */}
                 <g className={styles.band} data-band="upright">
-                  <path d="M226 59 373 247 276 471 272 464 367 247Z" fill="#9e302f" />
-                  <path d="M226 59 367 247 272 464 125 263 226 59ZM235 156 205 259 259 350 280 245Z" fill="#24211f" fillRule="evenodd" />
-                  <path d="M226 59 367 247 280 245 235 156Z" fill="#eee6d6" />
-                  <path d="M226 59 280 245 235 156Z" fill="#24211f" opacity="0.1" />
-                  <path d="M226 59 125 263 205 259 235 156Z" fill="#24211f" />
-                  <path d="M226 59 235 156 205 259 198 260 228 155Z" fill="#ff816e" />
-                  <path d="M125 263 272 464 259 350 205 259Z" fill="#9e302f" />
-                  <path d="M125 263 272 464 246 407 192 280Z" fill="#ff816e" />
-                  <use href={`#${frontFoldId}`} fill="#eee6d6" />
-                  <path d="M229 67 363 246" stroke="#eee6d6" strokeOpacity="0.6" />
+                  <path d="M226 59 373 247 276 471 272 464 367 247Z" fill="var(--art-fold)" />
+                  <path d="M226 59 367 247 272 464 125 263 226 59ZM235 156 205 259 259 350 280 245Z" fill="var(--art-reverse)" fillRule="evenodd" />
+                  <path d="M226 59 367 247 280 245 235 156Z" fill="var(--art-face)" />
+                  <path d="M226 59 280 245 235 156Z" fill="var(--art-shadow)" opacity="0.1" />
+                  <path d="M226 59 125 263 205 259 235 156Z" fill="var(--art-reverse)" />
+                  <path d="M226 59 235 156 205 259 198 260 228 155Z" fill="var(--art-edge)" />
+                  <path d="M125 263 272 464 259 350 205 259Z" fill="var(--art-fold)" />
+                  <path d="M125 263 272 464 246 407 192 280Z" fill="var(--art-edge)" />
+                  <use href={`#${frontFoldId}`} fill="var(--art-face)" />
+                  <path d="M229 67 363 246" stroke="var(--art-highlight)" strokeOpacity="0.6" />
                 </g>
 
                 {/* Band 3: the wide transverse loop crosses over the two rear folds. */}
                 <g className={styles.band} data-band="transverse">
-                  <path d="M49 232 272 128 451 251 244 387 49 232ZM146 237 247 309 353 249 263 199Z" fill="#24211f" fillRule="evenodd" />
-                  <path d="M49 232 272 128 263 199 146 237Z" fill="#eee6d6" />
-                  <path d="M49 232 263 199 146 237Z" fill="#24211f" opacity="0.14" />
-                  <path d="M272 128 451 251 353 249 263 199Z" fill="#24211f" />
-                  <path d="M272 128 451 251 442 252 271 136Z" fill="#ff816e" />
-                  <path d="M263 199 353 249 344 254 261 207Z" fill="#9e302f" />
-                  <path d="M49 232 244 387 247 309 146 237Z" fill="#eee6d6" />
-                  <path d="M49 232 244 387 244 362 105 269Z" fill="#24211f" opacity="0.12" />
-                  <path d="M49 232 49 240 244 395 244 387Z" fill="#ff816e" />
-                  <path d="M451 251 244 387 247 309 353 249Z" fill="#24211f" />
-                  <path d="M451 251 451 259 244 395 244 387Z" fill="#9e302f" />
-                  <path d="M451 251 244 387 277 354Z" fill="#eee6d6" opacity="0.08" />
-                  <path d="M56 231 270 131M56 237 240 383" stroke="#eee6d6" strokeOpacity="0.65" />
+                  <path d="M49 232 272 128 451 251 244 387 49 232ZM146 237 247 309 353 249 263 199Z" fill="var(--art-reverse)" fillRule="evenodd" />
+                  <path d="M49 232 272 128 263 199 146 237Z" fill="var(--art-face)" />
+                  <path d="M49 232 263 199 146 237Z" fill="var(--art-shadow)" opacity="0.14" />
+                  <path d="M272 128 451 251 353 249 263 199Z" fill="var(--art-reverse)" />
+                  <path d="M272 128 451 251 442 252 271 136Z" fill="var(--art-edge)" />
+                  <path d="M263 199 353 249 344 254 261 207Z" fill="var(--art-fold)" />
+                  <path d="M49 232 244 387 247 309 146 237Z" fill="var(--art-face)" />
+                  <path d="M49 232 244 387 244 362 105 269Z" fill="var(--art-shadow)" opacity="0.12" />
+                  <path d="M49 232 49 240 244 395 244 387Z" fill="var(--art-edge)" />
+                  <path d="M451 251 244 387 247 309 353 249Z" fill="var(--art-reverse)" />
+                  <path d="M451 251 451 259 244 395 244 387Z" fill="var(--art-fold)" />
+                  <path d="M451 251 244 387 277 354Z" fill="var(--art-highlight)" opacity="0.08" />
+                  <path d="M56 231 270 131M56 237 240 383" stroke="var(--art-highlight)" strokeOpacity="0.65" />
                 </g>
 
                 {/* Preserve paint order; every return shares its rear band's transform. */}
                 <g className={styles.band} data-band="oblique">
-                  <path d="M91 301 174 296 212 363 180 430Z" fill="#eee6d6" />
-                  <path d="M91 301 180 430 183 407 111 303Z" fill="#24211f" opacity="0.16" />
-                  <path d="M174 296 212 363 225 359 185 296Z" fill="#24211f" opacity="0.22" />
-                  <path d="M91 301 91 308 182 437 180 430Z" fill="#ff816e" />
-                  <path d="M423 351 180 430 212 363 341 321Z" fill="#24211f" />
-                  <path d="M423 351 180 430 182 437 429 353Z" fill="#9e302f" />
-                  <path d="M423 351 180 430 184 423 413 349Z" fill="#ff816e" />
-                  <path d="M212 363 341 321 355 326 209 374Z" fill="#eee6d6" opacity="0.09" />
+                  <path d="M91 301 174 296 212 363 180 430Z" fill="var(--art-face)" />
+                  <path d="M91 301 180 430 183 407 111 303Z" fill="var(--art-shadow)" opacity="0.16" />
+                  <path d="M174 296 212 363 225 359 185 296Z" fill="var(--art-shadow)" opacity="0.22" />
+                  <path d="M91 301 91 308 182 437 180 430Z" fill="var(--art-edge)" />
+                  <path d="M423 351 180 430 212 363 341 321Z" fill="var(--art-reverse)" />
+                  <path d="M423 351 180 430 182 437 429 353Z" fill="var(--art-fold)" />
+                  <path d="M423 351 180 430 184 423 413 349Z" fill="var(--art-edge)" />
+                  <path d="M212 363 341 321 355 326 209 374Z" fill="var(--art-highlight)" opacity="0.09" />
                 </g>
 
                 {/* Front return, clipped contact shadows, and the thin vermilion edge. */}
                 <g className={styles.band} data-band="upright">
-                  <use href={`#${frontFoldId}`} fill="#eee6d6" />
+                  <use href={`#${frontFoldId}`} fill="var(--art-face)" />
                   <use href={`#${frontFoldId}`} fill={`url(#${shadeId})`} />
-                  <g clipPath={`url(#${foldClipId})`} fill="#24211f">
+                  <g clipPath={`url(#${foldClipId})`} fill="var(--art-shadow)">
                     <path d="M265 259 356 275 347 295 269 281Z" opacity="0.2" />
                     <path d="M259 350 272 464 285 426Z" opacity="0.16" />
                   </g>
-                  <path d="M367 247 272 464 276 471 373 247Z" fill="#ff816e" />
-                  <path d="M280 245 259 350 264 368 286 249Z" fill="#eee6d6" />
-                  <path d="M367 247 280 245 284 251 364 254Z" fill="#9e302f" />
-                  <path d="M363 256 274 458" stroke="#eee6d6" strokeOpacity="0.75" />
+                  <path d="M367 247 272 464 276 471 373 247Z" fill="var(--art-edge)" />
+                  <path d="M280 245 259 350 264 368 286 249Z" fill="var(--art-face)" />
+                  <path d="M367 247 280 245 284 251 364 254Z" fill="var(--art-fold)" />
+                  <path d="M363 256 274 458" stroke="var(--art-highlight)" strokeOpacity="0.75" />
                 </g>
 
                 {/* Two short, engraved seams emphasize the material rather than a grid. */}
                 <g className={styles.band} data-band="transverse">
-                  <path d="M288 153 316 172M295 152 323 171" stroke="#eee6d6" strokeOpacity="0.35" strokeWidth="0.8" />
+                  <path d="M288 153 316 172M295 152 323 171" stroke="var(--art-highlight)" strokeOpacity="0.35" strokeWidth="0.8" />
                 </g>
                 <g className={styles.band} data-band="oblique">
-                  <path d="M204 401 228 393" stroke="#eee6d6" strokeOpacity="0.45" strokeWidth="0.8" />
+                  <path d="M204 401 228 393" stroke="var(--art-highlight)" strokeOpacity="0.45" strokeWidth="0.8" />
                 </g>
               </g>
 

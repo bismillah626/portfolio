@@ -7,7 +7,7 @@
   margin-inline-start: auto;
   align-self: center;
   justify-self: end;
-  color: var(--text, #24211f);
+  color: var(--art-text, #24211f);
 }
 
 .figure {
@@ -66,8 +66,8 @@
 .details {
   /* The paper panel's stamp overlaps its lower right edge. Reserve that space. */
   padding: 12px 48px 0 0;
-  background: var(--paper, #eee6d6);
-  color: #24211f;
+  background: var(--art-surface, #eee6d6);
+  color: var(--art-text, #24211f);
 }
 
 .description {
@@ -99,17 +99,17 @@
   min-width: 0;
   min-height: 44px;
   padding: 8px 6px;
-  border: 1px solid #9e302f;
+  border: 1px solid var(--art-accent, #9e302f);
   border-radius: 2px;
-  background: var(--paper, #eee6d6);
-  color: #9e302f;
+  background: var(--art-surface, #eee6d6);
+  color: var(--art-accent, #9e302f);
   font: 500 11px/1.4 var(--font-code, "Courier New", monospace);
   touch-action: manipulation;
 }
 
 .viewOptions button[aria-pressed="true"] {
-  background: #9e302f;
-  color: #eee6d6;
+  background: var(--art-accent, #9e302f);
+  color: var(--art-on-accent, #eee6d6);
 }
 
 .viewOptions button:hover {
@@ -118,13 +118,13 @@
 }
 
 .viewOptions button:focus-visible {
-  outline: 2px solid #24211f;
+  outline: 2px solid var(--art-text, #24211f);
   outline-offset: 3px;
 }
 
 .registration,
 .scale {
-  stroke: var(--text, #24211f);
+  stroke: var(--art-text, #24211f);
   opacity: 0.42;
 }
 
@@ -136,16 +136,16 @@
 }
 
 .accentStroke {
-  stroke: var(--accent, #9e302f);
+  stroke: var(--art-accent, #9e302f);
 }
 
 .rule {
-  stroke: var(--line, #24211f);
+  stroke: var(--art-line, #24211f);
   opacity: 0.5;
 }
 
 .caption {
-  fill: var(--text, #24211f);
+  fill: var(--art-text, #24211f);
   font-family: var(--font-mono, "Courier New", monospace);
   font-size: 10px;
   font-weight: 500;
@@ -153,7 +153,7 @@
 }
 
 .index {
-  fill: var(--accent, #9e302f);
+  fill: var(--art-accent, #9e302f);
 }
 
 @keyframes signal-float {
