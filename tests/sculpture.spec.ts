@@ -27,6 +27,47 @@ test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => sessionStorage.setItem("bk-boot-seen", "1"));
 });
 
+test("artwork palette keeps light mode cream and dark mode black-red", async ({ page }) => {
+  await page.goto("/");
+  const readPalette = () => page.locator(".hero-art-panel").evaluate((panel) => {
+    const face = panel.querySelector<SVGElement>('[data-band="oblique"] path:nth-of-type(5)');
+    const panelStyle = getComputedStyle(panel);
+    const rootStyle = getComputedStyle(document.documentElement);
+    return {
+      surface: panelStyle.backgroundColor,
+      artSurface: panelStyle.getPropertyValue("--art-surface").trim(),
+      face: face ? getComputedStyle(face).fill : "",
+      accent: panelStyle.getPropertyValue("--art-accent").trim(),
+      backgroundBase: rootStyle.getPropertyValue("--background-base").trim(),
+      backgroundRed: rootStyle.getPropertyValue("--background-red").trim(),
+    };
+  });
+
+  await page.evaluate(() => localStorage.setItem("portfolio-theme", "light"));
+  await page.reload();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  await expect.poll(readPalette).toEqual({
+    surface: "rgb(238, 230, 214)",
+    artSurface: "#eee6d6",
+    face: "rgb(238, 230, 214)",
+    accent: "#9e302f",
+    backgroundBase: "#eee6d6",
+    backgroundRed: "#a8342f",
+  });
+
+  await page.evaluate(() => localStorage.setItem("portfolio-theme", "dark"));
+  await page.reload();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await expect.poll(readPalette).toEqual({
+    surface: "rgb(18, 18, 18)",
+    artSurface: "#121212",
+    face: "rgb(168, 52, 47)",
+    accent: "#ff7166",
+    backgroundBase: "#090909",
+    backgroundRed: "#9e302f",
+  });
+});
+
 test("keyboard view controls explain the original fold and move complete ribbon bands", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.emulateMedia({ reducedMotion: "no-preference" });
