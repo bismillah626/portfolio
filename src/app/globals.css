@@ -237,6 +237,7 @@ button.data-chip:hover, .data-chip.is-active { background: var(--accent); color:
 .about-intro p:last-child { color: var(--muted); }
 .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 30px; }
 .stats-grid > div { border-bottom: 1px solid var(--line); padding-bottom: 12px; }
+.stats-grid > div:last-child { grid-column: 1 / -1; }
 .stats-grid span, .stats-wide > span { display: block; font-size: 10px; color: var(--muted); margin-bottom: 6px; }
 .stats-grid strong { font-size: 14px; font-weight: 500; }
 .stats-wide { margin-top: 24px; }

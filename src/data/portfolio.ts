@@ -4,7 +4,6 @@ export const profile = {
   degree: "B.Tech CSE",
   college: "IIIT Bhubaneswar",
   graduation: "2023–2027",
-  cgpa: "8.05",
   email: "khanbismillah2004@gmail.com",
   github: "https://github.com/bismillah626",
   linkedin: "https://www.linkedin.com/in/bismillah-khan-240953294",

@@ -1,0 +1,31 @@
+.portrait { min-width: 0; }
+.orbit {
+  transform-origin: 160px 170px;
+  animation: orbit 28s linear infinite;
+  animation-play-state: paused;
+}
+.portrait[data-active="true"] .orbit { animation-play-state: running; }
+.gaze { transform: translate(var(--gaze-x, 0px), var(--gaze-y, 0px)); }
+.controls { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
+.hint { font: 10px/1.6 var(--font-code); color: var(--muted); }
+.controls button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  min-height: 44px;
+  padding: 8px 16px;
+  border: 1px solid var(--line-strong);
+  border-radius: 30px;
+  background: transparent;
+  color: var(--text);
+  font: 11px/1.5 var(--font-code);
+}
+.controls button:hover, .controls button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+@keyframes orbit { to { transform: rotate(360deg); } }
+:global(:root[data-motion="paused"]) .orbit { animation-play-state: paused; }
+:global(:root[data-motion="paused"]) .gaze { transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .orbit { animation: none; }
+  .gaze { transform: none; }
+}
