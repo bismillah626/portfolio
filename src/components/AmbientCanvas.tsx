@@ -28,7 +28,7 @@ export default function AmbientCanvas() {
     const fine = window.matchMedia("(hover: hover) and (pointer: fine)");
     let frame = 0, lastTick = 0, lastPaint = 0;
     let width = 0, height = 0, phase = phaseRef.current;
-    let colors = ["#ff816e", "#c4cba3"];
+    let colors = ["#9e302f", "#ff7166", "#9e302f"];
     const pointer = pointerRef.current;
 
     const draw = () => {
@@ -39,71 +39,84 @@ export default function AmbientCanvas() {
       const px = reduced ? 0 : pointer.x * width;
       const py = reduced ? 0 : pointer.y * height;
 
-      // A restrained red sci-fi atmosphere: a distant signal sun, a low city
-      // grid, and scanlines. It is an original manga-noir mood, not borrowed
-      // character art or a copied title treatment.
+      // A restrained red-and-black print atmosphere: a vermilion sun, hand-cut
+      // wave bands, and an offset crest field. It is an original traditional
+      // print-inspired mood, not borrowed character art or a copied title treatment.
       const sunX = width * 0.79 + px * 0.65;
-      const sunY = height * 0.35 + py * 0.45;
-      const sunRadius = Math.max(width, height) * 0.34;
-      const glow = context.createRadialGradient(sunX, sunY, 0, sunX, sunY, sunRadius);
-      glow.addColorStop(0, colors[0]);
-      glow.addColorStop(0.22, colors[0]);
-      glow.addColorStop(1, "transparent");
+      const sunY = height * 0.28 + py * 0.45;
+      const sunRadius = Math.min(width, height) * 0.23;
       context.save();
-      context.globalAlpha = 0.1;
-      context.fillStyle = glow;
-      context.fillRect(0, 0, width, height);
-      context.globalAlpha = 0.16;
-      context.strokeStyle = colors[0];
-      context.lineWidth = 1;
-      for (let ring = 0; ring < 3; ring++) {
+      context.globalAlpha = 0.2;
+      context.fillStyle = colors[0];
+      context.beginPath();
+      context.arc(sunX, sunY, sunRadius, 0, Math.PI * 2);
+      context.fill();
+      context.globalAlpha = 0.2;
+      context.strokeStyle = colors[2];
+      context.lineWidth = 0.8;
+      for (let ring = 0; ring < 4; ring++) {
         context.beginPath();
-        context.arc(sunX, sunY, Math.max(width, height) * (0.12 + ring * 0.055), 0, Math.PI * 2);
+        context.arc(sunX, sunY, sunRadius + 10 + ring * 13, 0, Math.PI * 2);
         context.stroke();
       }
 
-      const horizon = height * 0.78;
-      context.globalAlpha = 0.08;
-      context.fillStyle = colors[1];
-      context.beginPath();
-      context.moveTo(width * 0.52, horizon);
-      context.lineTo(width, horizon - height * 0.08);
-      context.lineTo(width, height);
-      context.lineTo(width * 0.52, height);
-      context.closePath();
-      context.fill();
-      context.globalAlpha = 0.11;
-      context.strokeStyle = colors[0];
-      for (let line = 0; line < 5; line++) {
-        const depth = line / 4;
-        const y = horizon + Math.pow(depth, 1.55) * height * 0.32;
+      const waveCount = width < 768 ? 8 : 13;
+      const waveStart = height * 0.5;
+      for (let line = 0; line < waveCount; line++) {
+        const offset = line / Math.max(waveCount - 1, 1);
+        const y = waveStart + offset * height * 0.44;
+        const drift = Math.sin(time * 0.14 + line * 0.7) * height * 0.012 + py * 0.25;
         context.beginPath();
-        context.moveTo(width * 0.52, y);
-        context.lineTo(width, y - depth * height * 0.08);
+        context.moveTo(width * (0.37 + offset * 0.08) + px * 0.15, y + drift);
+        context.bezierCurveTo(
+          width * (0.55 + offset * 0.06), y - height * 0.1 + drift,
+          width * (0.68 + offset * 0.12), y + height * 0.1,
+          width * 1.06, y - height * 0.025 + drift,
+        );
+        context.strokeStyle = line % 4 === 0 ? colors[1] : colors[0];
+        context.globalAlpha = line % 4 === 0 ? 0.16 : 0.1;
+        context.lineWidth = line % 4 === 0 ? 1.4 : 0.7;
         context.stroke();
       }
-      for (let line = -5; line <= 5; line++) {
+
+      // Repeating half-moons make the lower field feel screen-printed rather
+      // than like a generated dashboard grid.
+      const tile = Math.max(42, Math.min(86, width * 0.065));
+      context.strokeStyle = colors[0];
+      context.lineWidth = 0.75;
+      for (let row = 0; row < 4; row++) {
+        for (let column = -1; column < Math.ceil(width / tile); column++) {
+          const x = width * 0.48 + column * tile + (row % 2) * tile * 0.5;
+          const y = height * 0.82 + row * tile * 0.42;
+          context.globalAlpha = 0.08 + row * 0.012;
+          context.beginPath();
+          context.arc(x, y, tile * 0.42, Math.PI, Math.PI * 2);
+          context.stroke();
+        }
+      }
+
+      // A single moving registration stroke gives the print field a pulse.
+      const registrationY = height * 0.53 + ((time * 18) % Math.max(height * 0.38, 1));
+      context.globalAlpha = 0.2;
+      context.strokeStyle = colors[1];
+      context.lineWidth = 1;
+      context.beginPath();
+      context.moveTo(width * 0.58, registrationY);
+      context.lineTo(width * 0.96, registrationY - height * 0.02);
+      context.stroke();
+      context.restore();
+
+      /* A second, quieter set of contour lines makes the field breathe. */
+      for (let line = -3; line <= 3; line++) {
         const x = width * 0.78 + line * width * 0.07;
         context.beginPath();
-        context.moveTo(x, horizon - height * 0.04);
-        context.lineTo(width * 0.78 + line * width * 0.18, height);
+        context.moveTo(x, height * 0.08);
+        context.bezierCurveTo(x - width * 0.16, height * 0.28, x + width * 0.12, height * 0.47, x - width * 0.05, height * 0.7);
+        context.strokeStyle = colors[2];
+        context.globalAlpha = 0.045;
+        context.lineWidth = 0.6;
         context.stroke();
       }
-
-      context.globalAlpha = 0.09;
-      context.fillStyle = colors[0];
-      const blocks = [0.06, 0.13, 0.08, 0.18, 0.11, 0.23, 0.09, 0.15];
-      let blockX = width * 0.56;
-      blocks.forEach((block, index) => {
-        const blockWidth = width * (0.035 + (index % 3) * 0.012);
-        const blockHeight = height * block;
-        context.fillRect(blockX, horizon - blockHeight, blockWidth, blockHeight);
-        blockX += blockWidth + width * 0.018;
-      });
-      const scanY = horizon + ((time * 26) % Math.max(height * 0.28, 1));
-      context.globalAlpha = 0.2;
-      context.fillRect(width * 0.53, scanY, width * 0.47, 1);
-      context.restore();
 
       // Nested river-cut contours: a quiet left margin, a folded ink seam at right.
       for (let i = 0; i < count; i++) {
@@ -137,10 +150,10 @@ export default function AmbientCanvas() {
 
     const palette = () => {
       const css = getComputedStyle(canvas);
-      const light = root.dataset.theme === "light";
       colors = [
-        css.getPropertyValue("--accent").trim() || (light ? "#9e302f" : "#ff816e"),
-        css.getPropertyValue("--sage").trim() || (light ? "#4d5a30" : "#c4cba3"),
+        css.getPropertyValue("--background-red").trim() || "#9e302f",
+        css.getPropertyValue("--accent").trim() || "#ff7166",
+        css.getPropertyValue("--canvas-light").trim() || "#9e302f",
       ];
       draw();
     };
